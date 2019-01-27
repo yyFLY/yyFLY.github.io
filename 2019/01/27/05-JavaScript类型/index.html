@@ -1,0 +1,282 @@
+<!DOCTYPE HTML>
+<html>
+<head><meta name="generator" content="Hexo 3.8.0">
+  <meta charset="utf-8">
+  
+  <title>05-JavaScript类型 | ZYY&#39;BLOG | Good is good, but better carries it</title>
+
+  
+  <meta name="author" content="zyy">
+  
+
+  
+  <meta name="description" content="类型JavaScript 语言的每一个值都属于某一种数据类型。JavaScript 语言规定了 7 种语言类型。语言类型广泛用于变量、函数参数、表达式、函数返回值等场合。根据最新的语言标准，这 7 种语言类型是：
+
+Undefined
+Null
+Boolean
+String
+Number
+Symbo">
+  
+
+  
+  
+  <meta name="keywords" content="重学前端 javascript">
+  
+
+  <meta id="viewport" name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, minimum-scale=1, user-scalable=no, minimal-ui">
+  <meta name="apple-mobile-web-app-capable" content="yes">
+  <meta name="apple-mobile-web-app-status-bar-style" content="black">
+
+  <meta property="og:title" content="05-JavaScript类型">
+
+  <meta property="og:site_name" content="ZYY&#39;BLOG">
+
+  
+  <meta property="og:image" content="/favicon.ico">
+  
+
+  <link href="//img/favicon.ico" rel="icon">
+  <link rel="alternate" href="/atom.xml" title="ZYY&#39;BLOG" type="application/atom+xml">
+  <link rel="stylesheet" href="/css/style.css" media="screen" type="text/css">
+</head>
+
+
+<body>
+<div class="blog">
+  <div class="content">
+
+    <header>
+  <div class="site-branding">
+    <h1 class="site-title">
+      <a href="/">ZYY&#39;BLOG</a>
+    </h1>
+    <p class="site-description">Good is good, but better carries it</p>
+  </div>
+  <nav class="site-navigation">
+    <ul>
+      
+        <li><a href="/">Home</a></li>
+      
+    </ul>
+  </nav>
+</header>
+
+    <main class="site-main posts-loop">
+    <article>
+
+  
+    
+    <h3 class="article-title"><span>05-JavaScript类型</span></h3>
+    
+  
+
+  <div class="article-top-meta">
+    <span class="posted-on">
+      <a href="/2019/01/27/05-JavaScript类型/" rel="bookmark">
+        <time class="entry-date published" datetime="2019-01-27T08:11:19.000Z">
+          2019-01-27
+        </time>
+      </a>
+    </span>
+  </div>
+
+
+  
+
+  <div class="article-content">
+    <div class="entry">
+      
+          <h2 id="类型"><a href="#类型" class="headerlink" title="类型"></a>类型</h2><p>JavaScript 语言的每一个值都属于某一种数据类型。JavaScript 语言规定了 7 种语言类型。语言类型广泛用于变量、函数参数、表达式、函数返回值等场合。根据最新的语言标准，这 7 种语言类型是：</p>
+<ul>
+<li>Undefined</li>
+<li>Null</li>
+<li>Boolean</li>
+<li>String</li>
+<li>Number</li>
+<li>Symbol</li>
+<li>Object</li>
+</ul>
+<h3 id="Undefined、Null"><a href="#Undefined、Null" class="headerlink" title="Undefined、Null"></a>Undefined、Null</h3><p>Undefined 类型表示未定义，它的类型只有一个值，就是 undefined。任何变量在赋值前是 Undefined 类型、值为 undefined，一般我们可以用全局变量 undefined（就是名为 undefined 的这个变量）来表达这个值，或者 void 运算来把任一一个表达式变成 undefined 值。</p>
+<p>但是呢，因为 JavaScript 的代码 undefined 是一个变量，而并非是一个关键字，这是 JavaScript 语言公认的设计失误之一，所以，我们为了避免无意中被篡改，我建议使用 void 0 来获取 undefined 值。</p>
+<p>Null 类型也只有一个值，就是 null，它的语义表示空值，与 undefined 不同，null 是 JavaScript 关键字，所以在任何代码中，你都可以放心用 null 关键字来获取 null 值。</p>
+<h3 id="Boolean"><a href="#Boolean" class="headerlink" title="Boolean"></a>Boolean</h3><p>Boolean 类型有两个值， true 和 false，它用于表示逻辑意义上的真和假，同样有关键字 true 和 false 来表示两个值。</p>
+<h3 id="String"><a href="#String" class="headerlink" title="String"></a>String</h3><p>String 用于表示文本数据。String 有最大长度是 2^53 - 1，这在一般开发中都是够用的，但是有趣的是，这个所谓最大长度，并不完全是你理解中的字符数。</p>
+<p>因为 String 的意义并非“字符串”，而是字符串的 UTF16 编码，我们字符串的操作 charAt、charCodeAt、length 等方法针对的都是 UTF16 编码。所以，字符串的最大长度，实际上是受字符串的编码长度影响的。</p>
+<p>JavaScript 中的字符串是永远无法变更的，一旦字符串构造出来，无法用任何方式改变字符串的内容，所以字符串具有值类型的特征。</p>
+<h3 id="Number"><a href="#Number" class="headerlink" title="Number"></a>Number</h3><p>Number 类型表示我们通常意义上的“数字”。这个数字大致对应数学中的有理数，当然，在计算机中，我们有一定的精度限制。</p>
+<p>JavaScript 中的 Number 类型有 18437736874454810627(即 2^64-2^53+3) 个值。</p>
+<p>JavaScript 中的 Number 类型基本符合 IEEE 754-2008 规定的双精度浮点数规则，但是 JavaScript 为了表达几个额外的语言场景（比如不让除以 0 出错，而引入了无穷大的概念），规定了几个例外情况：</p>
+<ul>
+<li>NaN，占用了 9007199254740990，这原本是符合 IEEE 规则的数字；</li>
+<li>Infinity，无穷大；</li>
+<li>-Infinity，负无穷大。</li>
+</ul>
+<p>另外，值得注意的是，JavaScript 中有 +0 和 -0，在加法类运算中它们没有区别，但是除法的场合则需要特别留意区分，“忘记检测除以 -0，而得到负无穷大”的情况经常会导致错误，而区分 +0 和 -0 的方式，正是检测 1/x 是 Infinity 还是 -Infinity。</p>
+<p>根据双精度浮点数的定义，Number 类型中有效的整数范围是 -0x1fffffffffffff 至 0x1fffffffffffff，所以 Number 无法精确表示此范围外的整数。</p>
+<p>同样根据浮点数的定义，非整数的 Number 类型无法用 ==（=== 也不行） 来比较，一段著名的代码，这也正是我们第三题的问题，为什么在 JavaScript 中，0.1+0.2 不能 =0.3：<br>正确的比较方法是使用 JavaScript 提供的最小精度值：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">console.log( Math.abs(0.1 + 0.2 - 0.3) &lt;= Number.EPSILON);</span><br><span class="line"></span><br><span class="line">// ==Math.abs() 绝对值==</span><br></pre></td></tr></table></figure>
+<p><strong>检查等式左右两边差的绝对值是否小于最小精度，才是正确的比较浮点数的方法。这段代码结果就是 true 了。</strong></p>
+<h3 id="Symbol"><a href="#Symbol" class="headerlink" title="Symbol"></a>Symbol</h3><p>Symbol 是 ES6 中引入的新类型，它是一切非字符串的对象 key 的集合，在 ES6 规范中，整个对象系统被用 Symbol 重塑。</p>
+<p>Symbol 可以具有字符串类型的描述，但是即使描述相同，Symbol 也不相等。</p>
+<p>我们创建 Symbol 的方式是使用全局的 Symbol 函数。例如：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">var mySymbol = Symbol(&quot;my symbol&quot;);</span><br></pre></td></tr></table></figure>
+<h3 id="Object"><a href="#Object" class="headerlink" title="Object"></a>Object</h3><p>为什么给对象添加的方法能用在基本类型上？</p>
+<p>在 JavaScript 中，对象的定义是“属性的集合”。属性分为数据属性和访问器属性，二者都是 key-value 结构，key 可以是字符串或者 Symbol 类型。</p>
+<p>事实上，JavaScript 中的“类”仅仅是运行时对象的一个私有属性，而 JavaScript 中是无法自定义类型的。</p>
+<p>JavaScript 中的几个基本类型，都在对象类型中有一个“亲戚”。它们是：</p>
+<ul>
+<li>Number；</li>
+<li>String；</li>
+<li>Boolean；</li>
+<li>Symbol;</li>
+</ul>
+<p>所以，我们必须认识到 3 与 new Number(3) 是完全不同的值，它们一个是 Number 类型， 一个是对象类型。</p>
+<p>Number、String 和 Boolean，三个构造器是两用的，当跟 new 搭配时，它们产生对象，当直接调用时，它们表示强制类型转换。</p>
+<p>Symbol 函数比较特殊，直接用 new 调用它会抛出错误，但它仍然是 Symbol 对象的构造器。</p>
+<p>JavaScript 语言设计上试图模糊对象和基本类型之间的关系，我们日常代码可以把对象的方法在基本类型上使用，比如：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">cosole.log(&quot;abc&quot;.charAt(0)); //a</span><br></pre></td></tr></table></figure>
+<p>甚至我们在原型上添加方法，都可以应用于基本类型，比如以下代码，在 Symbol 原型上添加了 hello 方法，在任何 Symbol 类型变量都可以调用。</p>
+<p>所以我们文章开头的问题，答案就是</p>
+<p><strong>.运算符提供了装箱操作，它会根据基础类型构造一个临时对象，使得我们能在基础类型上调用对应对象的方法。</strong></p>
+<h2 id="类型转换"><a href="#类型转换" class="headerlink" title="类型转换"></a>类型转换</h2><p><img src="https://static001.geekbang.org/resource/image/a9/b5/a989bda19367562ed2e19852952b4eb5.png" alt="image"></p>
+<h3 id="装箱转换"><a href="#装箱转换" class="headerlink" title="装箱转换"></a>装箱转换</h3><p>每一种基本类型 Number、String、Boolean、Symbol 在对象中都有对应的类，所谓装箱转换，正是把基本类型转换为对应的对象，它是类型转换中一种相当重要的种类。</p>
+<p>前文提到，全局的 Symbol 函数无法使用 new 来调用，但我们仍可以利用装箱机制来得到一个 Symbol 对象，我们可以利用一个函数的 call 方法来强迫产生装箱。</p>
+<p>我们定义一个函数，函数里面只有 return this，然后我们调用函数的 call 方法到一个 Symbol 类型的值上，这样就会产生一个 symbolObject。</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">var symbolObject = (function()&#123; return this; &#125;).call(Symbol(&quot;a&quot;));</span><br><span class="line"></span><br><span class="line">console.log(typeof symbolObject); //object</span><br><span class="line">console.log(symbolObject instanceof Symbol); //true</span><br><span class="line">console.log(symbolObject.constructor == Symbol); //true</span><br></pre></td></tr></table></figure>
+<p>装箱机制会频繁产生临时对象，在一些对性能要求较高的场景下，我们应该尽量避免对基本类型做装箱转换。</p>
+<p>在 JavaScript 中，没有任何方法可以更改私有的 Class 属性，因此 Object.prototype.toString 是可以准确识别对象对应的基本类型的方法，它比 instanceof 更加准确。</p>
+<h3 id="拆箱转换"><a href="#拆箱转换" class="headerlink" title="拆箱转换"></a>拆箱转换</h3><p>在 JavaScript 标准中，规定了 ToPrimitive 函数，它是对象类型到基本类型的转换（即，拆箱转换）。</p>
+<p>对象到 String 和 Number 的转换都遵循“先拆箱再转换”的规则。通过拆箱转换，把对象变成基本类型，再从基本类型转换为对应的 String 或者 Number。</p>
+<p>拆箱转换会尝试调用 valueOf 和 toString 来获得拆箱后的基本类型。如果 valueOf 和 toString 都不存在，或者没有返回基本类型，则会产生类型错误 TypeError。</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line">var o = &#123;</span><br><span class="line">        valueOf : () =&gt; &#123;console.log(&quot;valueOf&quot;); return &#123;&#125;&#125;,</span><br><span class="line">        toString : () =&gt; &#123;console.log(&quot;toString&quot;); return &#123;&#125;&#125;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    o * 2</span><br><span class="line">    // valueOf</span><br><span class="line">    // toString</span><br><span class="line">    // TypeError</span><br></pre></td></tr></table></figure>
+<p>在 ES6 之后，还允许对象通过显式指定 @@toPrimitive Symbol 来覆盖原有的行为。</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line">var o = &#123;</span><br><span class="line">        valueOf : () =&gt; &#123;console.log(&quot;valueOf&quot;); return &#123;&#125;&#125;,</span><br><span class="line">        toString : () =&gt; &#123;console.log(&quot;toString&quot;); return &#123;&#125;&#125;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    o[Symbol.toPrimitive] = () =&gt; &#123;console.log(&quot;toPrimitive&quot;); return &quot;hello&quot;&#125;</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">    console.log(o + &quot;&quot;)</span><br><span class="line">    // toPrimitive</span><br><span class="line">    // hello</span><br></pre></td></tr></table></figure>
+<h2 id="结语"><a href="#结语" class="headerlink" title="结语"></a>结语</h2><p>除了这七种语言类型，还有一些语言的实现者更关心的规范类型。<br>List 和 Record： 用于描述函数传参过程。<br>Set：主要用于解释字符集等。<br>Completion Record：用于描述异常、跳出等语句执行过程。<br>Reference：用于描述对象属性访问、delete 等。<br>Property Descriptor：用于描述对象的属性。<br>Lexical Environment 和 Environment Record：用于描述变量和作用域。<br>Data Block：用于描述二进制数据。</p>
+<h2 id="扩展"><a href="#扩展" class="headerlink" title="扩展"></a>扩展</h2><blockquote>
+<p>null 是对象嘛？</p>
+</blockquote>
+<p>对于 null 来说，很多人会认为他是个对象类型，其实这是错误的。虽然 typeof null 会输出 object，但是这只是 JS 存在的一个悠久 Bug。在 JS 的最初版本中使用的是 32 位系统，为了性能考虑使用低位存储变量的类型信息，000 开头代表是对象，然而 null 表示为全零，所以将它错误的判断为 object 。虽然现在的内部类型判断代码已经改变了，但是对于这个 Bug 却是一直流传下来。</p>
+<blockquote>
+<p>对象类型和原始类型的不同之处？函数参数是对象会发生什么问题？</p>
+</blockquote>
+<p>在 JS 中，除了原始类型那么其他的都是对象类型了。对象类型和原始类型不同的是，原始类型存储的是值，对象类型存储的是地址（指针）。当你创建了一个对象类型的时候，计算机会在内存中帮我们开辟一个空间来存放值，但是我们需要找到这个空间，这个空间会拥有一个地址（指针）。</p>
+<blockquote>
+<p>typeof 是否能正确判断类型？instanceof 能正确判断对象的原理是什么？</p>
+</blockquote>
+<p>typeof 对于原始类型来说，除了 null 都可以显示正确的类型</p>
+<p>typeof 对于对象来说，除了函数都会显示 object，所以说 typeof 并不能准确判断变量到底是什么类型</p>
+<p>如果我们想判断一个对象的正确类型，这时候可以考虑使用 instanceof，因为内部机制是通过原型链来判断的</p>
+<p>对于原始类型来说，你想直接通过 instanceof 来判断类型是不行的，当然我们还是有办法让 instanceof 判断原始类型的</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">class PrimitiveString &#123;</span><br><span class="line">  static [Symbol.hasInstance](x) &#123;</span><br><span class="line">    return typeof x === &apos;string&apos;</span><br><span class="line">  &#125;</span><br><span class="line">&#125;</span><br><span class="line">console.log(&apos;hello world&apos; instanceof PrimitiveString) // true</span><br></pre></td></tr></table></figure>
+<p>你可能不知道 Symbol.hasInstance 是什么东西，其实就是一个能让我们自定义 instanceof 行为的东西，以上代码等同于 typeof ‘hello world’ === ‘string’，所以结果自然是 true 了。这其实也侧面反映了一个问题， instanceof 也不是百分之百可信的。</p>
+<h4 id="类型转换-1"><a href="#类型转换-1" class="headerlink" title="类型转换"></a>类型转换</h4><p>在 JS 中类型转换只有三种情况，分别是：</p>
+<ul>
+<li>转换为布尔值</li>
+<li>转换为数字</li>
+<li>转换为字符串</li>
+</ul>
+<p><img src="https://user-gold-cdn.xitu.io/2018/11/15/16716dec14421e47?imageView2/0/w/1280/h/960/ignore-error/1" alt="image"></p>
+<h5 id="转Boolean"><a href="#转Boolean" class="headerlink" title="转Boolean"></a>转Boolean</h5><p>在条件判断时，除了 undefined， null， false， NaN， ‘’， 0， -0，其他所有值都转为 true，包括所有对象。</p>
+<h5 id="对象转原始类型"><a href="#对象转原始类型" class="headerlink" title="对象转原始类型"></a>对象转原始类型</h5><p>对象在转换类型的时候，会调用内置的 [[ToPrimitive]] 函数，对于该函数来说，算法逻辑一般来说如下：</p>
+<ul>
+<li>如果已经是原始类型了，那就不需要转换了</li>
+<li>调用 x.valueOf()，如果转换为基础类型，就返回转换的值</li>
+<li>调用 x.toString()，如果转换为基础类型，就返回转换的值</li>
+<li>如果都没有返回原始类型，就会报错<h5 id="四则运算符"><a href="#四则运算符" class="headerlink" title="四则运算符"></a>四则运算符</h5></li>
+</ul>
+<p>加法运算符不同于其他几个运算符，它有以下几个特点：</p>
+<ul>
+<li>运算中其中一方为字符串，那么就会把另一方也转换为字符串</li>
+<li>如果一方不是字符串或者数字，那么会将它转换为数字或者字符串</li>
+</ul>
+<blockquote>
+<p>1 + ‘1’ // ‘11’；</p>
+</blockquote>
+<blockquote>
+<p>true + true // 2</p>
+</blockquote>
+<blockquote>
+<p>4 + [1,2,3] // “41,2,3”</p>
+</blockquote>
+<p>请看解析：</p>
+<ul>
+<li>对于第一行代码来说，触发特点一，所以将数字 1 转换为字符串，得到结果 ‘11’</li>
+<li>对于第二行代码来说，触发特点二，所以将 true 转为数字 1</li>
+<li>对于第三行代码来说，触发特点二，所以将数组通过 toString 转为字符串 1,2,3，得到结果 41,2,3</li>
+<li>另外对于加法还需要注意这个表达式 ‘a’ + + ‘b’</li>
+</ul>
+<blockquote>
+<p>‘a’ + + ‘b’ // -&gt; “aNaN”</p>
+</blockquote>
+<p>因为 + ‘b’ 等于 NaN，所以结果为 “aNaN”，你可能也会在一些代码中看到过 + ‘1’ 的形式来快速获取 number 类型。</p>
+<p>那么对于除了加法的运算符来说，只要其中一方是数字，那么另一方就会被转为数字</p>
+<blockquote>
+<p>4 * ‘3’ // 12</p>
+</blockquote>
+<blockquote>
+<p>4 * [] // 0</p>
+</blockquote>
+<blockquote>
+<p>4 * [1, 2] // NaN</p>
+</blockquote>
+<h5 id="vs"><a href="#vs" class="headerlink" title="== vs ==="></a>== vs ===</h5><blockquote>
+<p>== 和 === 有什么区别？</p>
+</blockquote>
+<ol>
+<li>首先会判断两者类型是否相同。相同的话就是比大小了</li>
+<li>类型不相同的话，那么就会进行类型转换</li>
+<li>会先判断是否在对比 null 和 undefined，是的话就会返回 true</li>
+<li>判断两者类型是否为 string 和 number，是的话就会将字符串转换为 number</li>
+<li>判断其中一方是否为 boolean，是的话就会把 boolean 转为 number 再进行判断</li>
+<li>判断其中一方是否为 object 且另一方为 string、number 或者 symbol，是的话就会把 object 转为原始类型再进行判断</li>
+</ol>
+<p><img src="https://user-gold-cdn.xitu.io/2018/12/19/167c4a2627fe55f1?imageView2/0/w/1280/h/960/ignore-error/1" alt="image"></p>
+<p>读书笔记：</p>
+<p><a href="https://juejin.im/book/5bdc715fe51d454e755f75ef/section/5bdc715f6fb9a049c15ea4e0" target="_blank" rel="noopener">参考来源一：掘金</a></p>
+<p><a href="https://time.geekbang.org/column/article/78884" target="_blank" rel="noopener">参考来源二：极客</a></p>
+
+      
+    </div>
+
+  </div>
+
+  <div class="article-footer">
+    <div class="article-meta pull-left">
+
+    
+
+    
+    
+
+    <span class="post-tags">
+      <i class="icon-tags"></i>
+        <a href="/tags/重学前端-javascript/">重学前端 javascript</a>
+    </span>
+    
+
+    </div>
+
+    
+  </div>
+</article>
+
+
+    </main>
+
+    <footer class="site-footer">
+  <p class="site-info">
+    Proudly powered by <a href="https://hexo.io/" target="_blank">Hexo</a> and
+    Theme by <a href="https://github.com/CodeDaraW/Hacker" target="_blank">Hacker</a>
+    <br>
+    
+    &copy; 2019 zyy
+    
+  </p>
+</footer>
+    
+  </div>
+</div>
+</body>
+</html>
