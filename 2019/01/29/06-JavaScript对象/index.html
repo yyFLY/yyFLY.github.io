@@ -3,12 +3,16 @@
 <head><meta name="generator" content="Hexo 3.8.0">
   <meta charset="utf-8">
   
-  <title>05-JavaScript对象 | ZYY&#39;BLOG | Good is good, but better carries it</title>
+  <title>06-JavaScript对象 | ZYY&#39;BLOG | Good is good, but better carries it</title>
 
   
   <meta name="author" content="zyy">
   
 
+  
+  <meta name="description" content="JavaScript 标准对基于对象的定义是：“语言和宿主的基础设施由对象来提供，并且 JavaScript 程序即是一系列互相通讯的对象集合”。
+这里的意思根本不是表达弱化的面向对象的意思，反而是表达对象对于语言的重要性。
+什么是面向对象？在《面向对象分析与设计》这本书中，从人类的认知角度来说，对">
   
 
   
@@ -20,7 +24,7 @@
   <meta name="apple-mobile-web-app-capable" content="yes">
   <meta name="apple-mobile-web-app-status-bar-style" content="black">
 
-  <meta property="og:title" content="05-JavaScript对象">
+  <meta property="og:title" content="06-JavaScript对象">
 
   <meta property="og:site_name" content="ZYY&#39;BLOG">
 
@@ -59,7 +63,7 @@
 
   
     
-    <h3 class="article-title"><span>05-JavaScript对象</span></h3>
+    <h3 class="article-title"><span>06-JavaScript对象</span></h3>
     
   
 
@@ -79,7 +83,51 @@
   <div class="article-content">
     <div class="entry">
       
-          
+          <p><img src="https://note.youdao.com/yws/public/resource/bf1955d928c00fb62b74e854232b9d22/xmlnote/WEBRESOURCEf9b97a8839997e5b96c202505be1178a/1582" alt="image"><br>JavaScript 标准对基于对象的定义是：“语言和宿主的基础设施由对象来提供，并且 JavaScript 程序即是一系列互相通讯的对象集合”。</p>
+<p>这里的意思根本不是表达弱化的面向对象的意思，反而是表达对象对于语言的重要性。</p>
+<h2 id="什么是面向对象？"><a href="#什么是面向对象？" class="headerlink" title="什么是面向对象？"></a>什么是面向对象？</h2><p>在《面向对象分析与设计》这本书中，从人类的认知角度来说，对象应该是下列事物之一：</p>
+<ol>
+<li>一个可以触摸或者可以看见的东西；</li>
+<li>人的智力可以理解的东西；</li>
+<li>可以指导思考或行动（进行想象或施加动作）的东西。</li>
+</ol>
+<h3 id="JavaScript-对象的特征"><a href="#JavaScript-对象的特征" class="headerlink" title="JavaScript 对象的特征"></a>JavaScript 对象的特征</h3><p>对象有如下几个特点：</p>
+<ul>
+<li>对象具有唯一标识性：即使完全相同的两个对象，也并非同一个对象。</li>
+<li>对象有状态：对象具有状态，同一对象可能处于不同状态之下。</li>
+<li>对象具有行为：即对象的状态，可能因为它的行为产生变迁。</li>
+</ul>
+<p>对象具有唯一标识性。一般而言，各种语言的对象唯一标识性都是用内存地址来体现的， 对象具有唯一标识的内存地址，所以具有唯一的标识。任何不同的 JavaScript 对象其实是互不相等的</p>
+<p>关于对象的第二个和第三个特征“状态和行为”。<br>在 JavaScript 中，将状态和行为统一抽象为“属性”，考虑到 JavaScript 中将函数设计成一种特殊对象，所以 JavaScript 中的行为和状态都能用属性来抽象。</p>
+<p><strong>在实现了对象基本特征的基础上, 我认为，JavaScript 中对象独有的特色是：对象具有高度的动态性，这是因为 JavaScript 赋予了使用者在运行时为对象添改状态和行为的能力。</strong></p>
+<p>为了提高抽象能力，JavaScript 的属性被设计成比别的语言更加复杂的形式，它提供了数据属性和访问器属性（getter/setter）两类。</p>
+<h3 id="JavaScript-对象的两类属性"><a href="#JavaScript-对象的两类属性" class="headerlink" title="JavaScript 对象的两类属性"></a>JavaScript 对象的两类属性</h3><p>对 JavaScript 来说，属性并非只是简单的名称和值，JavaScript 用一组特征（attribute）来描述属性（property）。</p>
+<p>数据属性。它比较接近于其它语言的属性概念。数据属性具有四个特征。</p>
+<ul>
+<li>value：就是属性的值。</li>
+<li>writable：决定属性能否被赋值。</li>
+<li>enumerable：决定 for in 能否枚举该属性。</li>
+<li>configurable：决定该属性能否被删除或者改变特征值。</li>
+</ul>
+<p>第二类属性是访问器（getter/setter）属性，它也有四个特征。</p>
+<ul>
+<li>getter：函数或 undefined，在取属性值时被调用。</li>
+<li>setter：函数或 undefined，在设置属性值时被调用。</li>
+<li>enumerable：决定 for in 能否枚举该属性。</li>
+<li>configurable：决定该属性能否被删除或者改变特征值。</li>
+</ul>
+<p>访问器属性使得属性在读和写时执行代码，它允许使用者在写和读属性时，得到完全不同的值，它可以视为一种函数的语法糖。</p>
+<p>我们通常用于定义属性的代码会产生数据属性，其中的 writable、enumerable、configurable 都默认为 true。我们可以使用内置函数 <strong>Object.getOwnPropertyDescripter</strong></p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">var o = &#123; a: 1 &#125;;</span><br><span class="line">o.b = 2;</span><br><span class="line">//a 和 b 皆为数据属性</span><br><span class="line">Object.getOwnPropertyDescriptor(o,&quot;a&quot;) // &#123;value: 1, writable: true, enumerable: true, configurable: true&#125;</span><br><span class="line">Object.getOwnPropertyDescriptor(o,&quot;b&quot;) // &#123;value: 2, writable: true, enumerable: true, configurable: true&#125;</span><br></pre></td></tr></table></figure>
+<p>如果我们要想改变属性的特征，或者定义访问器属性，我们可以使用<strong> Object.defineProperty</strong>，示例如下：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">var o = &#123; a: 1 &#125;;</span><br><span class="line">Object.defineProperty(o, &quot;b&quot;, &#123;value: 2, writable: false, enumerable: false, configurable: true&#125;);</span><br><span class="line">//a 和 b 都是数据属性，但特征值变化了</span><br><span class="line">Object.getOwnPropertyDescriptor(o,&quot;a&quot;); // &#123;value: 1, writable: true, enumerable: true, configurable: true&#125;</span><br><span class="line">Object.getOwnPropertyDescriptor(o,&quot;b&quot;); // &#123;value: 2, writable: false, enumerable: false, configurable: true&#125;</span><br><span class="line">o.b = 3;</span><br><span class="line">console.log(o.b); // 2</span><br></pre></td></tr></table></figure>
+<p>在创建对象时，也可以使用 get 和 set 关键字来创建访问器属性，代码如下所示：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">var o = &#123; get a() &#123; return 1 &#125; &#125;;</span><br><span class="line"></span><br><span class="line">console.log(o.a); // 1</span><br></pre></td></tr></table></figure>
+<p>实际上 JavaScript 对象的运行时是一个“属性的集合”，属性以字符串或者 Symbol 为 key，以数据属性特征值或者访问器属性特征值为 value。</p>
+<p>为什么会有“JavaScript 不是面向对象”这样的说法了。这是由于 JavaScript 的对象设计跟目前主流基于类的面向对象差异非常大。</p>
+<p>可事实上，这样的对象系统设计虽然特别，但是 JavaScript 提供了完全运行时的对象系统，这使得它可以模仿多数面向对象编程范式，所以它也是正统的面向对象语言。</p>
+<p>JavaScript 语言标准也已经明确说明，JavaScript 是一门面向对象的语言，我想标准中能这样说，正是因为 JavaScript 的高度动态性的对象系统。</p>
+
       
     </div>
 
