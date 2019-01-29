@@ -26,6 +26,7 @@ body .blog {
   min-height: 100vh;
   background-color: #fff;
   margin: 0 auto;
+  background-image: url("../../../images/yy.jpg");
   background-repeat: no-repeat;
   background-size: contain;
 }
