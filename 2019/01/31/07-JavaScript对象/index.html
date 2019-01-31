@@ -1,0 +1,200 @@
+<!DOCTYPE HTML>
+<html>
+<head><meta name="generator" content="Hexo 3.8.0">
+  <meta charset="utf-8">
+  
+  <title>07 JavaScript对象 | ZYY&#39;BLOG | Good is good, but better carries it</title>
+
+  
+  <meta name="author" content="zyy">
+  
+
+  
+  <meta name="description" content="什么是原型？我们在上一节讲解面向对象的时候提到了：在不同的编程语言中，设计者也利用各种不同的语言特性来抽象描述对象。
+“基于类”的编程提倡使用一个关注分类和类之间关系开发模型。在这类语言中，总是先有类，再从类去实例化一个对象。类与类之间又可能会形成继承、组合等关系。类又往往与语言的类型系统整合，形成">
+  
+
+  
+  
+  <meta name="keywords" content="重学前端,javascript">
+  
+
+  <meta id="viewport" name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, minimum-scale=1, user-scalable=no, minimal-ui">
+  <meta name="apple-mobile-web-app-capable" content="yes">
+  <meta name="apple-mobile-web-app-status-bar-style" content="black">
+
+  <meta property="og:title" content="07 JavaScript对象">
+
+  <meta property="og:site_name" content="ZYY&#39;BLOG">
+
+  
+  <meta property="og:image" content="/favicon.ico">
+  
+
+  <link href="//img/favicon.ico" rel="icon">
+  <link rel="alternate" href="/atom.xml" title="ZYY&#39;BLOG" type="application/atom+xml">
+  <link rel="stylesheet" href="/css/style.css" media="screen" type="text/css">
+</head>
+
+
+<body>
+<div class="blog">
+  <div class="content">
+
+    <header>
+  <div class="site-branding">
+    <h1 class="site-title">
+      <a href="/">ZYY&#39;BLOG</a>
+    </h1>
+    <p class="site-description">Good is good, but better carries it</p>
+  </div>
+  <nav class="site-navigation">
+    <ul>
+      
+        <li><a href="/">Home</a></li>
+      
+    </ul>
+  </nav>
+</header>
+
+    <main class="site-main posts-loop">
+    <article>
+
+  
+    
+    <h3 class="article-title"><span>07 JavaScript对象</span></h3>
+    
+  
+
+  <div class="article-top-meta">
+    <span class="posted-on">
+      <a href="/2019/01/31/07-JavaScript对象/" rel="bookmark">
+        <time class="entry-date published" datetime="2019-01-31T14:25:35.000Z">
+          2019-01-31
+        </time>
+      </a>
+    </span>
+  </div>
+
+
+  
+
+  <div class="article-content">
+    <div class="entry">
+      
+          <p><img src="https://static001.geekbang.org/resource/image/6a/9b/6aec0a09381a2f74014ec604ef99c19b.png" alt="image"></p>
+<h2 id="什么是原型？"><a href="#什么是原型？" class="headerlink" title="什么是原型？"></a>什么是原型？</h2><p>我们在上一节讲解面向对象的时候提到了：在不同的编程语言中，设计者也利用各种不同的语言特性来抽象描述对象。</p>
+<p>“基于类”的编程提倡使用一个关注分类和类之间关系开发模型。在这类语言中，总是先有类，再从类去实例化一个对象。类与类之间又可能会形成继承、组合等关系。类又往往与语言的类型系统整合，形成一定编译时的能力。</p>
+<p>与此相对，“基于原型”的编程看起来更为提倡程序员去关注一系列对象实例的行为，而后才去关心如何将这些对象，划分到最近的使用方式相似的原型对象，而不是将它们分成类。</p>
+<p>javascript原型系统的“复制操作”思路：<br>一个是并不真的去复制一个原型对象，而是使得新对象持有一个原型的引用；</p>
+<h3 id="JavaScript-的原型"><a href="#JavaScript-的原型" class="headerlink" title="JavaScript 的原型"></a>JavaScript 的原型</h3><ul>
+<li>如果所有对象都有私有字段 [[prototype]]，就是对象的原型；</li>
+<li>读一个属性，如果对象本身没有，则会继续访问对象的原型，直到原型为空或者找到为止。</li>
+</ul>
+<p>这个模型在 ES 的各个历史版本中并没有很大改变，但从 ES6 以来，JavaScript 提供了一系列内置函数，以便更为直接地访问操纵原型。三个方法分别为：</p>
+<ul>
+<li>Object.create 根据指定的原型创建新对象，原型可以是 null；</li>
+<li>Object.getPrototypeOf 获得一个对象的原型；</li>
+<li>Object.setPrototypeOf 设置一个对象的原型。</li>
+</ul>
+<p>利用这三个方法，我们可以完全抛开类的思维，利用原型来实现抽象和复用。我用下面的代码展示了用原型来抽象猫和虎的例子。</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br></pre></td><td class="code"><pre><span class="line">var cat = &#123;</span><br><span class="line">    say()&#123;</span><br><span class="line">        console.log(&quot;meow~&quot;);</span><br><span class="line">    &#125;,</span><br><span class="line">    jump()&#123;</span><br><span class="line">        console.log(&quot;jump&quot;);</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">var tiger = Object.create(cat,  &#123;</span><br><span class="line">    say:&#123;</span><br><span class="line">        writable:true,</span><br><span class="line">        configurable:true,</span><br><span class="line">        enumerable:true,</span><br><span class="line">        value:function()&#123;</span><br><span class="line">            console.log(&quot;roar!&quot;);</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;)</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">var anotherCat = Object.create(cat);</span><br><span class="line"></span><br><span class="line">anotherCat.say();</span><br><span class="line"></span><br><span class="line">var anotherTiger = Object.create(tiger);</span><br><span class="line"></span><br><span class="line">anotherTiger.say();</span><br></pre></td></tr></table></figure>
+<h3 id="早期版本中的类与原型"><a href="#早期版本中的类与原型" class="headerlink" title="早期版本中的类与原型"></a>早期版本中的类与原型</h3><p>在早期版本的 JavaScript 中，“类”的定义是一个私有属性 [[class]]，语言标准为内置类型诸如 Number、String、Date 等指定了 [[class]] 属性，以表示它们的类。语言使用者唯一可以访问 [[class]] 属性的方式是 Object.prototype.toString。</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br></pre></td><td class="code"><pre><span class="line">var o = new Object;</span><br><span class="line">var n = new Number;</span><br><span class="line">var s = new String;</span><br><span class="line">var b = new Boolean;</span><br><span class="line">var d = new Date;</span><br><span class="line">var arg = function()&#123; return arguments &#125;();</span><br><span class="line">var r = new RegExp;</span><br><span class="line">var f = new Function;</span><br><span class="line">var arr = new Array;</span><br><span class="line">var e = new Error;</span><br><span class="line">console.log([o, n, s, b, d, arg, r, f, arr, e].map(v =&gt; Object.prototype.toString.call(v))); </span><br><span class="line">/**</span><br><span class="line">0: &quot;[object Object]&quot;</span><br><span class="line">1: &quot;[object Number]&quot;</span><br><span class="line">2: &quot;[object String]&quot;</span><br><span class="line">3: &quot;[object Boolean]&quot;</span><br><span class="line">4: &quot;[object Date]&quot;</span><br><span class="line">5: &quot;[object Arguments]&quot;</span><br><span class="line">6: &quot;[object RegExp]&quot;</span><br><span class="line">7: &quot;[object Function]&quot;</span><br><span class="line">8: &quot;[object Array]&quot;</span><br><span class="line">9: &quot;[object Error]&quot;</span><br><span class="line">**/</span><br></pre></td></tr></table></figure>
+<p>因此，在 ES3 和之前的版本，JS 中类的概念是相当弱的，它仅仅是运行时的一个字符串属性。</p>
+<p>在 ES5 开始，[[class]] 私有属性被 Symbol.toStringTag 代替，Object.prototype.toString 的意义从命名上不再跟 class 相关。我们甚至可以自定义 Object.prototype.toString 的行为，以下代码展示了使用 Symbol.toStringTag 来自定义 Object.prototype.toString 的行为：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">var o = &#123; [Symbol.toStringTag]: &quot;MyObject&quot; &#125;</span><br><span class="line">console.log(o + &quot;&quot;);</span><br><span class="line">//[object MyObject]</span><br></pre></td></tr></table></figure>
+<p>这里创建了一个新对象，并且给它唯一的一个属性 Symbol.toStringTag，我们用字符串加法触发了 Object.prototype.toString 的调用，发现这个属性最终对 Object.prototype.toString 的结果产生了影响。</p>
+<h4 id="new-操作具体做了哪些事情"><a href="#new-操作具体做了哪些事情" class="headerlink" title="new 操作具体做了哪些事情"></a>new 操作具体做了哪些事情</h4><p> ==new 运算接受一个构造器和一组调用参数，实际上做了几件事：==</p>
+<ul>
+<li>以构造器的 prototype 属性（注意与私有字段 [[prototype]] 的区分）为原型，创建新对象；</li>
+<li>将 this 和调用参数传给构造器，执行；</li>
+<li>如果构造器返回的是对象，则返回，否则返回第一步创建的对象。</li>
+</ul>
+<p>new 这样的行为，试图让函数对象在语法上跟类变得相似，但是，它客观上提供了两种方式，一是在构造器中添加属性，二是在构造器的 prototype 属性上添加属性。</p>
+<p>下面代码展示了用构造器模拟类的两种方法:</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br></pre></td><td class="code"><pre><span class="line">function c1()&#123;</span><br><span class="line">    this.p1 = 1;</span><br><span class="line">    this.p2 = function()&#123;</span><br><span class="line">        console.log(this.p1);</span><br><span class="line">    &#125;</span><br><span class="line">&#125; </span><br><span class="line">var o1 = new c1;</span><br><span class="line">o1.p2();</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"></span><br><span class="line">function c2()&#123;</span><br><span class="line">&#125;</span><br><span class="line">c2.prototype.p1 = 1;</span><br><span class="line">c2.prototype.p2 = function()&#123;</span><br><span class="line">    console.log(this.p1);</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">var o2 = new c2;</span><br><span class="line">o2.p2();</span><br></pre></td></tr></table></figure>
+<p>第一种方法是直接在构造器中修改 this，给 this 添加属性。</p>
+<p>第二种方法是修改构造器的 prototype 属性指向的对象，它是从这个构造器构造出来的所有对象的原型。</p>
+<h3 id="ES6-中的类"><a href="#ES6-中的类" class="headerlink" title="ES6 中的类"></a>ES6 中的类</h3><p>ES6 中引入了 class 关键字，并且在标准中删除了所有 [[class]] 相关的私有属性描述，类的概念正式从属性升级成语言的基础设施，从此，基于类的编程方式成为了 JavaScript 的官方编程范式。</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></td><td class="code"><pre><span class="line">class Rectangle &#123;</span><br><span class="line">  constructor(height, width) &#123;</span><br><span class="line">    this.height = height;</span><br><span class="line">    this.width = width;</span><br><span class="line">  &#125;</span><br><span class="line">  // Getter</span><br><span class="line">  get area() &#123;</span><br><span class="line">    return this.calcArea();</span><br><span class="line">  &#125;</span><br><span class="line">  // Method</span><br><span class="line">  calcArea() &#123;</span><br><span class="line">    return this.height * this.width;</span><br><span class="line">  &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>我们通过 get/set 关键字来创建 getter，通过括号和大括号来创建方法，数据型成员最好写在构造器里面。</p>
+<p>类的写法实际上也是由原型运行时来承载的，逻辑上 JavaScript 认为每个类是有共同原型的一组对象，类中定义的方法和属性则会被写在原型对象之上。</p>
+<p>此外，最重要的是，类提供了继承能力。</p>
+<h2 id="扩展"><a href="#扩展" class="headerlink" title="扩展"></a>扩展</h2><p><a href="https://blog.csdn.net/liwenfei123/article/details/77978027" target="_blank" rel="noopener">javascript中判断数据类型的四种方法及typeof、instanceof、constructor、toString</a></p>
+<p><a href="http://www.cnblogs.com/wangfupeng1988/p/3977924.html" target="_blank" rel="noopener">深入理解javascript原型和闭包</a></p>
+<p><img src="https://user-gold-cdn.xitu.io/2018/11/16/1671d387e4189ec8?imageView2/0/w/1280/h/960/ignore-error/1" alt="image"></p>
+<p><a href="https://github.com/mqyqingfeng/Blog/issues/2" target="_blank" rel="noopener">这是每一个JavaScript对象(除了 null )都具有的一个属性，叫<strong>proto</strong>，这个属性会指向该对象的原型</a>。</p>
+<p>其实原型链就是多个对象通过 <strong>proto</strong> 的方式连接了起来。为什么 obj 可以访问到 valueOf 函数，就是因为 obj 通过原型链找到了 valueOf 函数。</p>
+<ul>
+<li>Object 是所有对象的爸爸，所有对象都可以通过 <strong>proto</strong> 找到它</li>
+<li>Function 是所有函数的爸爸，所有函数都可以通过 <strong>proto</strong> 找到它</li>
+<li>函数的 prototype 是一个对象</li>
+<li>对象的 <strong>proto</strong> 属性指向原型， <strong>proto</strong> 将对象和原型连接起来组成了原型链</li>
+</ul>
+<blockquote>
+<p>原型如何实现继承？Class 如何实现继承？Class 本质是什么？</p>
+</blockquote>
+<h4 id="组合继承"><a href="#组合继承" class="headerlink" title="组合继承"></a>组合继承</h4><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br></pre></td><td class="code"><pre><span class="line">function Parent(value) &#123;</span><br><span class="line">  this.val = value</span><br><span class="line">&#125;</span><br><span class="line">Parent.prototype.getValue = function() &#123;</span><br><span class="line">  console.log(this.val)</span><br><span class="line">&#125;</span><br><span class="line">function Child(value) &#123;</span><br><span class="line">  Parent.call(this, value)</span><br><span class="line">&#125;</span><br><span class="line">Child.prototype = new Parent()</span><br><span class="line"></span><br><span class="line">const child = new Child(1)</span><br><span class="line"></span><br><span class="line">child.getValue() // 1</span><br><span class="line">child instanceof Parent // true</span><br></pre></td></tr></table></figure>
+<p>以上继承的方式核心是在子类的构造函数中通过 Parent.call(this) 继承父类的属性，然后改变子类的原型为 new Parent() 来继承父类的函数。</p>
+<p>这种继承方式优点在于构造函数可以传参，不会与父类引用属性共享，可以复用父类的函数，但是也存在一个缺点就是在继承父类函数的时候调用了父类构造函数，导致子类的原型上多了不需要的父类属性，存在内存上的浪费。</p>
+<p><img src="https://user-gold-cdn.xitu.io/2018/11/19/1672aeb24a2e2cae?imageView2/0/w/1280/h/960/ignore-error/1" alt="image"></p>
+<h4 id="寄生组合继承"><a href="#寄生组合继承" class="headerlink" title="寄生组合继承"></a>寄生组合继承</h4><p>这种继承方式对组合继承进行了优化，组合继承缺点在于继承父类函数时调用了构造函数，我们只需要优化掉这点就行了。</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br></pre></td><td class="code"><pre><span class="line">function Parent(value) &#123;</span><br><span class="line">  this.val = value</span><br><span class="line">&#125;</span><br><span class="line">Parent.prototype.getValue = function() &#123;</span><br><span class="line">  console.log(this.val)</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">function Child(value) &#123;</span><br><span class="line">  Parent.call(this, value)</span><br><span class="line">&#125;</span><br><span class="line">Child.prototype = Object.create(Parent.prototype, &#123;</span><br><span class="line">  constructor: &#123;</span><br><span class="line">    value: Child,</span><br><span class="line">    enumerable: false,</span><br><span class="line">    writable: true,</span><br><span class="line">    configurable: true</span><br><span class="line">  &#125;</span><br><span class="line">&#125;)</span><br><span class="line"></span><br><span class="line">const child = new Child(1)</span><br><span class="line"></span><br><span class="line">child.getValue() // 1</span><br><span class="line">child instanceof Parent // true</span><br></pre></td></tr></table></figure>
+<p>以上继承实现的核心就是将父类的原型赋值给了子类，并且将构造函数设置为子类，这样既解决了无用的父类属性问题，还能正确的找到子类的构造函数。</p>
+<p><img src="https://user-gold-cdn.xitu.io/2018/11/19/1672afb8dfa21361?imageView2/0/w/1280/h/960/ignore-error/1" alt="image"></p>
+<p>其实在 JS 中并不存在类，class 只是语法糖，本质还是函数。</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">class Person &#123;&#125;</span><br><span class="line">Person instanceof Function // true</span><br></pre></td></tr></table></figure>
+<blockquote>
+<p>new的模拟实现<br>因为 new 是关键字，所以无法像 bind 函数一样直接覆盖，所以我们写一个函数，命名为 objectFactory，来模拟 new 的效果。用的时候是这样的：</p>
+</blockquote>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line">function Otaku () &#123;</span><br><span class="line">    ……</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">// 使用 new</span><br><span class="line">var person = new Otaku(……);</span><br><span class="line">// 使用 objectFactory</span><br><span class="line">var person = objectFactory(Otaku, ……)</span><br></pre></td></tr></table></figure>
+<p>实现：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line">function objectFactory() &#123;</span><br><span class="line"></span><br><span class="line">    var obj = new Object()；//用new Object() 的方式新建了一个对象 obj</span><br><span class="line"></span><br><span class="line">    Constructor = [].shift.call(arguments);//取出第一个参数，就是我们要传入的构造函数。此外因为 shift 会修改原数组，所以 arguments 会被去除第一个参数</span><br><span class="line"></span><br><span class="line">    obj.__proto__ = Constructor.prototype;//将 obj 的原型指向构造函数，这样 obj 就可以访问到构造函数原型中的属性</span><br><span class="line"></span><br><span class="line">    var ret = Constructor.apply(obj, arguments);//使用 apply，改变构造函数 this 的指向到新建的对象，这样 obj 就可以访问到构造函数中的属性</span><br><span class="line"></span><br><span class="line">    return typeof ret === &apos;object&apos; ? ret : obj; //判断返回的值是不是一个对象，如果是一个对象，我们就返回这个对象，如果没有，我们该返回什么就返回什么。</span><br><span class="line"></span><br><span class="line">&#125;;</span><br></pre></td></tr></table></figure>
+<p>读书笔记：</p>
+<p><a href="https://juejin.im/book/5bdc715fe51d454e755f75ef/section/5bdc715f6fb9a049c15ea4e0" target="_blank" rel="noopener">参考来源一：掘金</a></p>
+<p><a href="https://time.geekbang.org/column/article/79539" target="_blank" rel="noopener">参考来源二：极客</a></p>
+
+      
+    </div>
+
+  </div>
+
+  <div class="article-footer">
+    <div class="article-meta pull-left">
+
+    
+
+    
+    
+
+    <span class="post-tags">
+      <i class="icon-tags"></i>
+        <a href="/tags/重学前端/">重学前端</a><a href="/tags/javascript/">javascript</a>
+    </span>
+    
+
+    </div>
+
+    
+  </div>
+</article>
+
+
+    </main>
+
+    <footer class="site-footer">
+  <p class="site-info">
+    Proudly powered by <a href="https://hexo.io/" target="_blank">Hexo</a> and
+    Theme by <a href="https://github.com/CodeDaraW/Hacker" target="_blank">Hacker</a>
+    <br>
+    
+    &copy; 2019 zyy
+    
+  </p>
+</footer>
+    
+  </div>
+</div>
+</body>
+</html>
