@@ -1,0 +1,276 @@
+<!DOCTYPE HTML>
+<html>
+<head><meta name="generator" content="Hexo 3.8.0">
+  <meta charset="utf-8">
+  
+  <title>09-CSS语法（属性、选择器、@规则） | ZYY&#39;BLOG | Good is good, but better carries it</title>
+
+  
+  <meta name="author" content="zyy">
+  
+
+  
+  <meta name="description" content="CSS 语法的最新标准，去除空格、HTML 注释等无效信息，CSS 的顶层样式表由两种规则组成的规则列表构成，一种被称为 at-rule，也就是 at 规则，另一种是 qualified rule，也就是普通规则。
+at-rule 由一个 @ 关键字和后续的一个区块组成，如果没有区块，则以分号结束。">
+  
+
+  
+  
+  <meta name="keywords" content="重学前端,css">
+  
+
+  <meta id="viewport" name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, minimum-scale=1, user-scalable=no, minimal-ui">
+  <meta name="apple-mobile-web-app-capable" content="yes">
+  <meta name="apple-mobile-web-app-status-bar-style" content="black">
+
+  <meta property="og:title" content="09-CSS语法（属性、选择器、@规则）">
+
+  <meta property="og:site_name" content="ZYY&#39;BLOG">
+
+  
+  <meta property="og:image" content="/favicon.ico">
+  
+
+  <link href="//img/favicon.ico" rel="icon">
+  <link rel="alternate" href="/atom.xml" title="ZYY&#39;BLOG" type="application/atom+xml">
+  <link rel="stylesheet" href="/css/style.css" media="screen" type="text/css">
+</head>
+
+
+<body>
+<div class="blog">
+  <div class="content">
+
+    <header>
+  <div class="site-branding">
+    <h1 class="site-title">
+      <a href="/">ZYY&#39;BLOG</a>
+    </h1>
+    <p class="site-description">Good is good, but better carries it</p>
+  </div>
+  <nav class="site-navigation">
+    <ul>
+      
+        <li><a href="/">Home</a></li>
+      
+    </ul>
+  </nav>
+</header>
+
+    <main class="site-main posts-loop">
+    <article>
+
+  
+    
+    <h3 class="article-title"><span>09-CSS语法（属性、选择器、@规则）</span></h3>
+    
+  
+
+  <div class="article-top-meta">
+    <span class="posted-on">
+      <a href="/2019/02/07/09-CSS语法（属性、选择器、@规则）/" rel="bookmark">
+        <time class="entry-date published" datetime="2019-02-07T05:06:17.000Z">
+          2019-02-07
+        </time>
+      </a>
+    </span>
+  </div>
+
+
+  
+
+  <div class="article-content">
+    <div class="entry">
+      
+          <p>CSS 语法的最新标准，去除空格、HTML 注释等无效信息，<strong>CSS 的顶层样式表由两种规则组成的规则列表构成，一种被称为 at-rule，也就是 at 规则，另一种是 qualified rule，也就是普通规则。</strong></p>
+<p>at-rule 由一个 @ 关键字和后续的一个区块组成，如果没有区块，则以分号结束。这些 at-rule 在开发中使用机会远远小于普通的规则，所以它的大部分内容，你可能会感觉很陌生。</p>
+<h2 id="at-规则"><a href="#at-规则" class="headerlink" title="at 规则"></a>at 规则</h2><h3 id="charset"><a href="#charset" class="headerlink" title="@charset"></a>@charset</h3><p>@charset 用于提示 CSS 文件使用的字符编码方式，它如果被使用，必须出现在最前面。这个规则只在给出语法解析阶段前使用，并不影响页面上的展示效果。</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">@charset &quot;utf-8&quot;;</span><br></pre></td></tr></table></figure>
+<h3 id="import"><a href="#import" class="headerlink" title="@import"></a>@import</h3><p>@import 用于引入一个 CSS 文件，除了 @charset 规则不会被引入，@import 可以引入另一个文件的全部内容。</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">@import &quot;mystyle.css&quot;;</span><br><span class="line">@import url(&quot;mystyle.css&quot;);</span><br></pre></td></tr></table></figure>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">@import [ &lt;url&gt; | &lt;string&gt; ]</span><br><span class="line">        [ supports( [ &lt;supports-condition&gt; | &lt;declaration&gt; ] ) ]?</span><br><span class="line">        &lt;media-query-list&gt;? ;</span><br></pre></td></tr></table></figure>
+<p>通过代码，我们可以看出，import 还支持 supports 和 media query 形式。</p>
+<h3 id="media"><a href="#media" class="headerlink" title="@media"></a>@media</h3><p>media 就是大名鼎鼎的 media query 使用的规则了，它能够对设备的类型进行一些判断。在 media 的区块内，是普通规则列表。</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">@media print &#123;</span><br><span class="line">    body &#123; font-size: 10pt &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<h3 id="page"><a href="#page" class="headerlink" title="@page"></a>@page</h3><p>page 用于分页媒体访问网页时的表现设置，页面是一种特殊的盒模型结构，除了页面本身，还可以设置它周围的盒。</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line">@page &#123;</span><br><span class="line">  size: 8.5in 11in;</span><br><span class="line">  margin: 10%;</span><br><span class="line"></span><br><span class="line">  @top-left &#123;</span><br><span class="line">    content: &quot;Hamlet&quot;;</span><br><span class="line">  &#125;</span><br><span class="line">  @top-right &#123;</span><br><span class="line">    content: &quot;Page &quot; counter(page);</span><br><span class="line">  &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<h3 id="counter-style"><a href="#counter-style" class="headerlink" title="@ counter-style"></a>@ counter-style</h3><p>counter-style 产生一种数据，用于定义列表项的表现。</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">@counter-style triangle &#123;</span><br><span class="line">  system: cyclic;</span><br><span class="line">  symbols: ‣;</span><br><span class="line">  suffix: &quot; &quot;;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<h3 id="key-frames"><a href="#key-frames" class="headerlink" title="@ key-frames"></a>@ key-frames</h3><p>keyframes 产生一种数据，用于定义动画关键帧。</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line">@keyframes diagonal-slide &#123;</span><br><span class="line"></span><br><span class="line">  from &#123;</span><br><span class="line">    left: 0;</span><br><span class="line">    top: 0;</span><br><span class="line">  &#125;</span><br><span class="line"></span><br><span class="line">  to &#123;</span><br><span class="line">    left: 100px;</span><br><span class="line">    top: 100px;</span><br><span class="line">  &#125;</span><br><span class="line"></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<h3 id="fontface"><a href="#fontface" class="headerlink" title="@ fontface"></a>@ fontface</h3><p>fontface 用于定义一种字体，icon font 技术就是利用这个特性来实现的。</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">@font-face &#123;</span><br><span class="line">  font-family: Gentium;</span><br><span class="line">  src: url(http://example.com/fonts/Gentium.woff);</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">p &#123; font-family: Gentium, serif; &#125;</span><br></pre></td></tr></table></figure>
+<h3 id="support"><a href="#support" class="headerlink" title="@ support"></a>@ support</h3><p>support 检查环境的特性，它与 media 比较类似。</p>
+<h3 id="namespace"><a href="#namespace" class="headerlink" title="@ namespace"></a>@ namespace</h3><p>用于跟 XML 命名空间配合的一个规则，表示内部的 CSS 选择器全都带上特定命名空间。</p>
+<h3 id="viewport"><a href="#viewport" class="headerlink" title="@ viewport"></a>@ viewport</h3><p>用于设置视口的一些特性，不过兼容性目前不是很好，多数时候被 html 的 meta 代替。</p>
+<h3 id="其它"><a href="#其它" class="headerlink" title="其它"></a>其它</h3><p>除了以上这些，还有些目前不太推荐使用的 at 规则。</p>
+<ul>
+<li>@color-profile 是 SVG1.0 引入的 CSS 特性，但是实现状况不怎么好。</li>
+<li>@document 还没讨论清楚，被推迟到了 CSS4 中。</li>
+<li>@font-feature-values 。todo 查一下。</li>
+</ul>
+<h2 id="普通规则"><a href="#普通规则" class="headerlink" title="普通规则"></a>普通规则</h2><p>qualified rule 主要是由选择器和声明区块构成。声明区块又由属性和值构成。我在下面的列表中，介绍了这部分语法的组成要点。</p>
+<ul>
+<li>普通规则<ul>
+<li>选择器</li>
+<li>声明列表<ul>
+<li>属性</li>
+<li>值<ul>
+<li>值的类型</li>
+<li>函数</li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+<h3 id="选择器"><a href="#选择器" class="headerlink" title="选择器"></a>选择器</h3><p>我们从语法结构可以看出，任何选择器，都是由几个符号结构连接的：空格、大于号、加号、波浪线、双竖线，这里需要注意一下，空格，即为后代选择器的优先级较低。</p>
+<p>然后对每一个选择器来说，如果它不是伪元素的话，由几个可选的部分组成，标签类型选择器，id、class、属性和伪类，它们中只要出现一个，就构成了选择器。</p>
+<p>如果它是伪元素，则在这个结构之后追加伪元素。只有伪类可以出现在伪元素之后。我在下面用一个列表（不太严谨地）整理了选择器的语法结构：</p>
+<p><img src="https://static001.geekbang.org/resource/image/4f/67/4fa32e5cf47c72a58f7a8211d4e8fc67.png" alt="image"></p>
+<p>我们在这里可以参考一个示例图：</p>
+<p><img src="https://static001.geekbang.org/resource/image/d5/00/d56974c0265982b9ac84b067cd623e00.png" alt="image"></p>
+<h3 id="声明：属性和值"><a href="#声明：属性和值" class="headerlink" title="声明：属性和值"></a>声明：属性和值</h3><p>声明部分是一个由“属性: 值”组成的序列。</p>
+<p><strong>属性</strong>是由中划线、下划线、字母等组成的标识符，CSS 还支持使用反斜杠转义。我们需要注意的是：属性不允许使用连续的两个中划线开头，这样的属性会被认为是 CSS 变量。</p>
+<p>CSS Variables 标准中，以双中划线开头的属性被当作变量，与之配合的则是 var 函数：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line">:root &#123;</span><br><span class="line">  --main-color: #06c;</span><br><span class="line">  --accent-color: #006;</span><br><span class="line">&#125;</span><br><span class="line">/* The rest of the CSS file */</span><br><span class="line">#foo h1 &#123;</span><br><span class="line">  color: var(--main-color);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>值的部分，主要在标准 CSS Values and Unit，根据每个 CSS 属性可以取到不同的值，这里的值可能是字符串、标识符。</p>
+<p>CSS 属性值可能是以下类型。</p>
+<ul>
+<li>CSS 范围的关键字：initial，unset，inherit，任何属性都可以的关键字。</li>
+<li>字符串：比如 content 属性。</li>
+<li>URL：使用 url() 函数的 URL 值。</li>
+<li>整数 / 实数：比如 flex 属性。</li>
+<li>维度：单位的整数 / 实数，比如 width 属性。</li>
+<li>百分比：大部分维度都支持。</li>
+<li>颜色：比如 background-color 属性。</li>
+<li>图片：比如 background-image 属性。</li>
+<li>2D 位置：比如 background-position 属性。</li>
+<li>函数：来自函数的值，比如 transform 属性。</li>
+</ul>
+<p>这里我们要重点介绍一下函数。一些属性会要求产生函数类型的值，比如 easing-function 会要求 cubic-bezier() 函数的值：</p>
+<p>CSS 支持一批特定的计算型函数：</p>
+<ul>
+<li>calc()</li>
+<li>max()</li>
+<li>min()</li>
+<li>clamp()</li>
+<li>toggle()</li>
+<li>attr()</li>
+</ul>
+<p>calc()函数是基本的表达式计算，它支持加减乘除四则运算。在针对维度进行计算时，calc() 函数允许不同单位混合运算，这非常的有用。</p>
+<p>整理了一下 CSS 函数。<br>按照功能，分成以下 5 个类别</p>
+<h3 id="1-图片"><a href="#1-图片" class="headerlink" title="1. 图片"></a>1. 图片</h3><ul>
+<li>filter<ul>
+<li>blur()</li>
+<li>brightness()</li>
+<li>contrast()</li>
+<li>drop-shadow()</li>
+<li>grayscale()</li>
+<li>hue_rotate()</li>
+<li>invert()</li>
+<li>opacity()</li>
+<li>saturate()</li>
+<li>sepia()</li>
+</ul>
+</li>
+<li>cross-fade()</li>
+<li>element()</li>
+<li>image-set()</li>
+<li>imagefunction()</li>
+</ul>
+<h3 id="2-图形绘制"><a href="#2-图形绘制" class="headerlink" title="2. 图形绘制"></a>2. 图形绘制</h3><ul>
+<li>conic-gradient()</li>
+<li>linear-gradient()</li>
+<li>radial-gradient()</li>
+<li>repeating-linear-gradient()</li>
+<li>repeating-radial-gradient()</li>
+<li>shape()</li>
+</ul>
+<h3 id="3-布局"><a href="#3-布局" class="headerlink" title="3. 布局"></a>3. 布局</h3><ul>
+<li>calc()</li>
+<li>clamp()</li>
+<li>fit-content()</li>
+<li>max()</li>
+<li>min()</li>
+<li>minmax()</li>
+<li>repeat()</li>
+</ul>
+<h3 id="4-变形-动画"><a href="#4-变形-动画" class="headerlink" title="4. 变形/动画"></a>4. 变形/动画</h3><ul>
+<li>transform<ul>
+<li>matrix()</li>
+<li>matrix3d()</li>
+<li>perspective()</li>
+<li>rotate()</li>
+<li>rotate3d()</li>
+<li>rotateX()</li>
+<li>rotateY()</li>
+<li>rotateZ()</li>
+<li>scale()</li>
+<li>scale3d()</li>
+<li>scaleX()</li>
+<li>scaleY()</li>
+<li>scaleZ()</li>
+<li>skew()</li>
+<li>skewX()</li>
+<li>skewY()</li>
+<li>translate()</li>
+<li>translate3d()</li>
+<li>translateX()</li>
+<li>translateY()</li>
+<li>translateZ()</li>
+</ul>
+</li>
+</ul>
+<h3 id="5-环境与元素"><a href="#5-环境与元素" class="headerlink" title="5. 环境与元素"></a>5. 环境与元素</h3><ul>
+<li>var()</li>
+<li>env()</li>
+<li>attr()</li>
+</ul>
+<p>读书笔记：</p>
+<p><a href="https://time.geekbang.org/column/article/80042" target="_blank" rel="noopener">参考来源一：极客</a></p>
+
+      
+    </div>
+
+  </div>
+
+  <div class="article-footer">
+    <div class="article-meta pull-left">
+
+    
+
+    
+    
+
+    <span class="post-tags">
+      <i class="icon-tags"></i>
+        <a href="/tags/重学前端/">重学前端</a><a href="/tags/css/">css</a>
+    </span>
+    
+
+    </div>
+
+    
+  </div>
+</article>
+
+
+    </main>
+
+    <footer class="site-footer">
+  <p class="site-info">
+    Proudly powered by <a href="https://hexo.io/" target="_blank">Hexo</a> and
+    Theme by <a href="https://github.com/CodeDaraW/Hacker" target="_blank">Hacker</a>
+    <br>
+    
+    &copy; 2019 zyy
+    
+  </p>
+</footer>
+    
+  </div>
+</div>
+</body>
+</html>
