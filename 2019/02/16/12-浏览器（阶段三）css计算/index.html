@@ -1,0 +1,147 @@
+<!DOCTYPE HTML>
+<html>
+<head><meta name="generator" content="Hexo 3.8.0">
+  <meta charset="utf-8">
+  
+  <title>12-浏览器（阶段三）css计算 | ZYY&#39;BLOG | Good is good, but better carries it</title>
+
+  
+  <meta name="author" content="zyy">
+  
+
+  
+  <meta name="description" content="浏览器是如何把 CSS 规则应用到节点上，并给这棵朴素的 DOM 树添加上 CSS 属性的。
+整体过程浏览器会尽量流式处理整个过程。构建 DOM 的过程是：从父到子，从先到后，一个一个节点构造，并且挂载到 DOM 树上的，那么这个过程中，能同步把 CSS 属性计算出来。
+在这个过程中，我们依次拿到上">
+  
+
+  
+  
+  <meta name="keywords" content="重学前端,浏览器">
+  
+
+  <meta id="viewport" name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, minimum-scale=1, user-scalable=no, minimal-ui">
+  <meta name="apple-mobile-web-app-capable" content="yes">
+  <meta name="apple-mobile-web-app-status-bar-style" content="black">
+
+  <meta property="og:title" content="12-浏览器（阶段三）css计算">
+
+  <meta property="og:site_name" content="ZYY&#39;BLOG">
+
+  
+  <meta property="og:image" content="/favicon.ico">
+  
+
+  <link href="//img/favicon.ico" rel="icon">
+  <link rel="alternate" href="/atom.xml" title="ZYY&#39;BLOG" type="application/atom+xml">
+  <link rel="stylesheet" href="/css/style.css" media="screen" type="text/css">
+</head>
+
+
+<body>
+<div class="blog">
+  <div class="content">
+
+    <header>
+  <div class="site-branding">
+    <h1 class="site-title">
+      <a href="/">ZYY&#39;BLOG</a>
+    </h1>
+    <p class="site-description">Good is good, but better carries it</p>
+  </div>
+  <nav class="site-navigation">
+    <ul>
+      
+        <li><a href="/">Home</a></li>
+      
+    </ul>
+  </nav>
+</header>
+
+    <main class="site-main posts-loop">
+    <article>
+
+  
+    
+    <h3 class="article-title"><span>12-浏览器（阶段三）css计算</span></h3>
+    
+  
+
+  <div class="article-top-meta">
+    <span class="posted-on">
+      <a href="/2019/02/16/12-浏览器（阶段三）css计算/" rel="bookmark">
+        <time class="entry-date published" datetime="2019-02-16T08:58:42.000Z">
+          2019-02-16
+        </time>
+      </a>
+    </span>
+  </div>
+
+
+  
+
+  <div class="article-content">
+    <div class="entry">
+      
+          <p>浏览器是如何把 CSS 规则应用到节点上，并给这棵朴素的 DOM 树添加上 CSS 属性的。</p>
+<h2 id="整体过程"><a href="#整体过程" class="headerlink" title="整体过程"></a>整体过程</h2><p>浏览器会尽量流式处理整个过程。构建 DOM 的过程是：从父到子，从先到后，一个一个节点构造，并且挂载到 DOM 树上的，那么这个过程中，能同步把 CSS 属性计算出来。</p>
+<p>在这个过程中，我们依次拿到上一部构造好的元素，去检查它匹配到了哪些规则，再根据规则的优先级，做覆盖和调整。所以，从这个角度看，所谓的选择器，应该被理解成“匹配器”才更合适。</p>
+<p>我在 CSS 语法部分，已经总结了选择器的各种符号，这里再把它列出来，我们回顾一下：</p>
+<ul>
+<li>空格: 后代，选中它的子节点和所有子节点的后代节点。</li>
+<li>. &gt; : 子代，选中它的子节点。</li>
+<li>+：直接后继选择器，选中它的下一个相邻节点。</li>
+<li>~：后继，选中它之后所有的相邻节点。</li>
+<li>||：列，选中表格中的一列。</li>
+</ul>
+<p>这里的选择器有个特点，那就是选择器的出现顺序，必定跟构建 DOM 树的顺序一致。这是一个 CSS 设计的原则，即保证选择器在 DOM 树构建到当前节点时，已经可以准确判断是否匹配，不需要后续节点信息。</p>
+<p>理解了 CSS 构建的大概过程，我们下面来看看具体的操作。</p>
+<p>首先，我们必须把 CSS 规则做一下处理。作为一门语言，CSS 需要先经过词法分析和语法分析，变成计算机能够理解的结构。</p>
+<p>我们这里假设 CSS 已经被解析成了一棵可用的抽象语法树。</p>
+<p>我们在之前的 CSS 课程中已经介绍过 compound-selector 的概念，一个 compound-selector 是检查一个元素的规则，而一个复合型选择器，则是由数个 compound-selector 通过前面讲的符号连接起来的。</p>
+<h3 id="后代选择器-“空格”"><a href="#后代选择器-“空格”" class="headerlink" title="后代选择器 “空格”"></a>后代选择器 “空格”</h3><p>后代选择器的作用范围是父节点的所有子节点，因此规则是在匹配到本标签的结束标签时回退。</p>
+<p><a href="https://time.geekbang.org/column/article/80311" target="_blank" rel="noopener">参考来源一：极客</a></p>
+
+      
+    </div>
+
+  </div>
+
+  <div class="article-footer">
+    <div class="article-meta pull-left">
+
+    
+
+    
+    
+
+    <span class="post-tags">
+      <i class="icon-tags"></i>
+        <a href="/tags/重学前端/">重学前端</a><a href="/tags/浏览器/">浏览器</a>
+    </span>
+    
+
+    </div>
+
+    
+  </div>
+</article>
+
+
+    </main>
+
+    <footer class="site-footer">
+  <p class="site-info">
+    Proudly powered by <a href="https://hexo.io/" target="_blank">Hexo</a> and
+    Theme by <a href="https://github.com/CodeDaraW/Hacker" target="_blank">Hacker</a>
+    <br>
+    
+    &copy; 2019 zyy
+    
+  </p>
+</footer>
+    
+  </div>
+</div>
+</body>
+</html>

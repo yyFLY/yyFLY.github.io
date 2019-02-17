@@ -93,8 +93,9 @@
 <p>可以把这段代码依次拆成词（token）：</p>
 <p>&lt;p“标签开始”的开始；<br>class=“a” 属性；</p>
 <blockquote>
-<p> “标签开始”的结束；<br>text text text 文本；<br></p> 标签结束。<br><img src="https://static001.geekbang.org/resource/image/f9/84/f98444aa3ea7471d2414dd7d0f5e3a84.png" alt="image"><p></p>
+<p> “标签开始”的结束；<br>text text text 文本；<br></p> 标签结束。<p></p>
 </blockquote>
+<p><img src="https://static001.geekbang.org/resource/image/f9/84/f98444aa3ea7471d2414dd7d0f5e3a84.png" alt="image"></p>
 <p>根据这样的分析，现在我们讲讲浏览器是如何用代码实现，我们设想，代码开始从 HTTP 协议收到的字符流读取字符。</p>
 <p>在接受第一个字符之前，我们完全无法判断这是哪一个词（token），不过，随着我们接受的字符越来越多，拼出其他的内容可能性就越来越少。</p>
 <p>实际上，我们每读入一个字符，其实都要做一次决策，而且这些决定是跟“当前状态”有关的。在这样的条件下，浏览器工程师要想实现把字符流解析成词（token），最常见的方案就是使用状态机。</p>

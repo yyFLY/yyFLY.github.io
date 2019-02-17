@@ -1,0 +1,150 @@
+<!DOCTYPE HTML>
+<html>
+<head><meta name="generator" content="Hexo 3.8.0">
+  <meta charset="utf-8">
+  
+  <title>13-浏览器（阶段四）css排版 | ZYY&#39;BLOG | Good is good, but better carries it</title>
+
+  
+  <meta name="author" content="zyy">
+  
+
+  
+  <meta name="description" content="浏览器又可以支持元素和文字的混排，元素被定义为占据长方形的区域，还允许边框、边距和留白，这个就是所谓的盒模型
+在正常流的基础上，浏览器还支持两类元素：绝对定位元素和浮动元素。
+
+浮动元素则是使得自己在正常流的位置向左或者向右移动到边界，并且占据一块排版空间。浮动元素由 float 属性控制。
+浮动元">
+  
+
+  
+  
+  <meta name="keywords" content="重学前端,浏览器">
+  
+
+  <meta id="viewport" name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, minimum-scale=1, user-scalable=no, minimal-ui">
+  <meta name="apple-mobile-web-app-capable" content="yes">
+  <meta name="apple-mobile-web-app-status-bar-style" content="black">
+
+  <meta property="og:title" content="13-浏览器（阶段四）css排版">
+
+  <meta property="og:site_name" content="ZYY&#39;BLOG">
+
+  
+  <meta property="og:image" content="/favicon.ico">
+  
+
+  <link href="//img/favicon.ico" rel="icon">
+  <link rel="alternate" href="/atom.xml" title="ZYY&#39;BLOG" type="application/atom+xml">
+  <link rel="stylesheet" href="/css/style.css" media="screen" type="text/css">
+</head>
+
+
+<body>
+<div class="blog">
+  <div class="content">
+
+    <header>
+  <div class="site-branding">
+    <h1 class="site-title">
+      <a href="/">ZYY&#39;BLOG</a>
+    </h1>
+    <p class="site-description">Good is good, but better carries it</p>
+  </div>
+  <nav class="site-navigation">
+    <ul>
+      
+        <li><a href="/">Home</a></li>
+      
+    </ul>
+  </nav>
+</header>
+
+    <main class="site-main posts-loop">
+    <article>
+
+  
+    
+    <h3 class="article-title"><span>13-浏览器（阶段四）css排版</span></h3>
+    
+  
+
+  <div class="article-top-meta">
+    <span class="posted-on">
+      <a href="/2019/02/17/13-浏览器（阶段四）css排版/" rel="bookmark">
+        <time class="entry-date published" datetime="2019-02-17T02:17:26.000Z">
+          2019-02-17
+        </time>
+      </a>
+    </span>
+  </div>
+
+
+  
+
+  <div class="article-content">
+    <div class="entry">
+      
+          <p>浏览器又可以支持元素和文字的混排，元素被定义为占据长方形的区域，还允许边框、边距和留白，这个就是所谓的盒模型</p>
+<p>在正常流的基础上，浏览器还支持两类元素：绝对定位元素和浮动元素。</p>
+<ul>
+<li>浮动元素则是使得自己在正常流的位置向左或者向右移动到边界，并且占据一块排版空间。浮动元素由 float 属性控制。</li>
+<li>浮动元素则是使得自己在正常流的位置向左或者向右移动到边界，并且占据一块排版空间。浮动元素由 float 属性控制。</li>
+</ul>
+<p>（position和float同时设置后，如果使用的是相对定位，元素会先浮动起来，然后再根据position进行定位。如果使用的时绝对定位，float不会产生任何效果。）</p>
+<h3 id="正常流文字排版"><a href="#正常流文字排版" class="headerlink" title="正常流文字排版"></a>正常流文字排版</h3><p>在正常流的文字排版中，多数元素被当作长方形盒来排版，而只有 display 为 inline 的元素，是被拆成文本来排版的（还有一种 run-in 元素，它有时作为盒，有时作为文字，不太常用，这里不详细讲了）。</p>
+<p>注意，当没有强制指定文字书写方向时，在左到右文字中插入右到左向文字，会形成一个双向文字盒，反之亦然。</p>
+<p>这样，即使没有元素包裹，混合书写方向的文字也可以形成一个盒结构，我们在排版时，遇到这样的双向文字盒，会先排完盒内再排盒外。</p>
+<h3 id="正常流中的盒"><a href="#正常流中的盒" class="headerlink" title="正常流中的盒"></a>正常流中的盒</h3><p>在正常流中，display 不为 inline 的元素或者伪元素，会以盒的形式跟文字一起排版。多数 display 属性都可以分成两部分：内部的排版和是否 inline，带有 inline- 前缀的盒，被称作行内级盒。</p>
+<p>根据盒模型，一个盒具有 margin、border、padding、width/height 等属性，它在主轴方向占据的空间是由对应方向的这几个属性之和决定的，而 vertical-align 属性决定了盒在交叉轴方向的位置，同时也会影响实际行高。</p>
+<p>所以，浏览器对行的排版，一般是先行内布局，再确定行的位置，根据行的位置计算出行内盒和文字的排版位置。</p>
+<p>块级盒比较简单，它总是单独占据一整行，计算出交叉轴方向的高度即可。</p>
+<h3 id="绝对定位元素"><a href="#绝对定位元素" class="headerlink" title="绝对定位元素"></a>绝对定位元素</h3><p>position 属性为 absolute 的元素，我们需要根据它的包含块来确定位置，这是完全跟正常流无关的一种独立排版模式，逐层找到其父级的 position 非 static 元素即可。</p>
+<h3 id="浮动元素排版"><a href="#浮动元素排版" class="headerlink" title="浮动元素排版"></a>浮动元素排版</h3><p>float 元素非常特别，浏览器对 float 的处理是先排入正常流，再移动到排版宽度的最左 / 最右（这里实际上是主轴的最前和最后）。</p>
+<p>移动之后，float 元素占据了一块排版的空间，因此，在数行之内，主轴方向的排版距离发生了变化，直到交叉轴方向的尺寸超过了浮动元素的交叉轴尺寸范围，主轴排版尺寸才会恢复。</p>
+<p>float 元素排布完成后，float 元素所在的行需要重新确定位置。</p>
+<h3 id="其它的排版"><a href="#其它的排版" class="headerlink" title="其它的排版"></a>其它的排版</h3><p>CSS 的每一种排版都有一个很复杂的规定，实际实现形式也各不相同。比如如 flex 排版，支持了 flex 属性，flex 属性将每一行排版后的剩余空间平均分配给主轴方向的 width/height 属性。浏览器支持的每一种排版方式，都是按照对应的标准来实现的。</p>
+
+      
+    </div>
+
+  </div>
+
+  <div class="article-footer">
+    <div class="article-meta pull-left">
+
+    
+
+    
+    
+
+    <span class="post-tags">
+      <i class="icon-tags"></i>
+        <a href="/tags/重学前端/">重学前端</a><a href="/tags/浏览器/">浏览器</a>
+    </span>
+    
+
+    </div>
+
+    
+  </div>
+</article>
+
+
+    </main>
+
+    <footer class="site-footer">
+  <p class="site-info">
+    Proudly powered by <a href="https://hexo.io/" target="_blank">Hexo</a> and
+    Theme by <a href="https://github.com/CodeDaraW/Hacker" target="_blank">Hacker</a>
+    <br>
+    
+    &copy; 2019 zyy
+    
+  </p>
+</footer>
+    
+  </div>
+</div>
+</body>
+</html>
