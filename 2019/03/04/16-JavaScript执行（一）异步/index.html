@@ -1,0 +1,186 @@
+<!DOCTYPE HTML>
+<html>
+<head><meta name="generator" content="Hexo 3.8.0">
+  <meta charset="utf-8">
+  
+  <title>16-JavaScript执行（一）异步 | ZYY&#39;BLOG | Good is good, but better carries it</title>
+
+  
+  <meta name="author" content="zyy">
+  
+
+  
+  <meta name="description" content="先形成一个感性的认知：一个 JavaScript 引擎会常驻于内存中，它等待着我们（宿主）把 JavaScript 代码或者函数传递给它执行。
+在 ES3 和更早的版本中，JavaScript 本身还没有异步执行代码的能力，这也就意味着，宿主环境传递给 JavaScript 引擎一段代码，引擎就把代">
+  
+
+  
+  
+  <meta name="keywords" content="重学前端,异步,JavaScript执行">
+  
+
+  <meta id="viewport" name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, minimum-scale=1, user-scalable=no, minimal-ui">
+  <meta name="apple-mobile-web-app-capable" content="yes">
+  <meta name="apple-mobile-web-app-status-bar-style" content="black">
+
+  <meta property="og:title" content="16-JavaScript执行（一）异步">
+
+  <meta property="og:site_name" content="ZYY&#39;BLOG">
+
+  
+  <meta property="og:image" content="/favicon.ico">
+  
+
+  <link href="//img/favicon.ico" rel="icon">
+  <link rel="alternate" href="/atom.xml" title="ZYY&#39;BLOG" type="application/atom+xml">
+  <link rel="stylesheet" href="/css/style.css" media="screen" type="text/css">
+</head>
+
+
+<body>
+<div class="blog">
+  <div class="content">
+
+    <header>
+  <div class="site-branding">
+    <h1 class="site-title">
+      <a href="/">ZYY&#39;BLOG</a>
+    </h1>
+    <p class="site-description">Good is good, but better carries it</p>
+  </div>
+  <nav class="site-navigation">
+    <ul>
+      
+        <li><a href="/">Home</a></li>
+      
+    </ul>
+  </nav>
+</header>
+
+    <main class="site-main posts-loop">
+    <article>
+
+  
+    
+    <h3 class="article-title"><span>16-JavaScript执行（一）异步</span></h3>
+    
+  
+
+  <div class="article-top-meta">
+    <span class="posted-on">
+      <a href="/2019/03/04/16-JavaScript执行（一）异步/" rel="bookmark">
+        <time class="entry-date published" datetime="2019-03-04T13:25:24.000Z">
+          2019-03-04
+        </time>
+      </a>
+    </span>
+  </div>
+
+
+  
+
+  <div class="article-content">
+    <div class="entry">
+      
+          <p>先形成一个感性的认知：一个 JavaScript 引擎会常驻于内存中，它等待着我们（宿主）把 JavaScript 代码或者函数传递给它执行。</p>
+<p>在 ES3 和更早的版本中，JavaScript 本身还没有异步执行代码的能力，这也就意味着，宿主环境传递给 JavaScript 引擎一段代码，引擎就把代码直接顺次执行了，这个任务也就是宿主发起的任务。</p>
+<p>但是，在 ES5 之后，JavaScript 引入了 Promise，这样，不需要浏览器的安排，JavaScript 引擎本身也可以发起任务了。</p>
+<p>由于我们这里主要讲 JavaScript 语言，那么采纳 JSC 引擎的术语，我们把宿主发起的任务称为宏观任务，把 JavaScript 引擎发起的任务称为微观任务。</p>
+<h2 id="宏观和微观任务"><a href="#宏观和微观任务" class="headerlink" title="宏观和微观任务"></a>宏观和微观任务</h2><p>JavaScript 引擎等待宿主环境分配宏观任务，在操作系统中，通常等待的行为都是一个事件循环，所以在 Node 术语中，也会把这个部分称为事件循环。</p>
+<p>宏观任务的队列就相当于事件循环。</p>
+<p>在宏观任务中，JavaScript 的 Promise 还会产生异步代码，JavaScript 必须保证这些异步代码在一个宏观任务中完成，因此，每个宏观任务中又包含了一个微观任务队列：</p>
+<p><img src="https://static001.geekbang.org/resource/image/16/65/16f70a9a51a65d5302166b0d78414d65.jpg" alt="image"></p>
+<p>有了宏观任务和微观任务机制，我们就可以实现 JS 引擎级和宿主级的任务了，例如：Promise 永远在队列尾部添加微观任务。setTimeout 等宿主 API，则会添加宏观任务。</p>
+<h3 id="Promise"><a href="#Promise" class="headerlink" title="Promise"></a>Promise</h3><p>Promise 是 JavaScript 语言提供的一种标准化的异步管理方式，它的总体思想是，需要进行 io、等待或者其它异步操作的函数，不返回真实结果，而返回一个“承诺”，函数的调用方可以在合适的时机，选择等待这个承诺兑现（通过 Promise 的 then 方法的回调）。</p>
+<p>如何分析异步执行的顺序：<br>首先我们分析有多少个宏任务；<br>在每个宏任务中，分析有多少个微任务；<br>根据调用次序，确定宏任务中的微任务执行次序；<br>根据宏任务的触发规则和调用次序，确定宏任务的执行次序；<br>确定整个顺序。</p>
+<h3 id="新特性：async-await"><a href="#新特性：async-await" class="headerlink" title="新特性：async/await"></a>新特性：async/await</h3><p>async 函数必定返回 Promise，我们把所有返回 Promise 的函数都可以认为是异步函数。</p>
+<p>async 函数是一种特殊语法，特征是在 function 关键字之前加上 async 关键字，这样，就定义了一个 async 函数，我们可以在其中使用 await 来等待一个 Promise。</p>
+<p>此外，generator/iterator 也常常被跟异步一起来讲，我们必须说明 generator/iterator 并非异步代码，只是在缺少 async/await 的时候，一些框架（最著名的要数 co）使用这样的特性来模拟 async/await。</p>
+<p>最后，留给你一个小练习：我们现在要实现一个红绿灯，把一个圆形 div 按照绿色 3 秒，黄色 1 秒，红色 2</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br></pre></td><td class="code"><pre><span class="line">function sleep(duration)&#123;</span><br><span class="line">    return new Promise(function(resolve)&#123;</span><br><span class="line">        setTimeout(resolve, duration);</span><br><span class="line">    &#125;)</span><br><span class="line">&#125;</span><br><span class="line">async function changeColor(duration,color)&#123;</span><br><span class="line">    document.getElementById(&quot;traffic-light&quot;).style.background = color;</span><br><span class="line">    await sleep(duration);</span><br><span class="line"></span><br><span class="line">&#125;</span><br><span class="line">async function main()&#123;</span><br><span class="line">    while(true)&#123;</span><br><span class="line">        await changeColor(3000,&quot;green&quot;);</span><br><span class="line">        await changeColor(1000, &quot;yellow&quot;);</span><br><span class="line">        await changeColor(2000, &quot;red&quot;);</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br><span class="line">main()</span><br></pre></td></tr></table></figure>
+<h2 id="扩展"><a href="#扩展" class="headerlink" title="扩展"></a>扩展</h2><h3 id="事件循环中的异步队列"><a href="#事件循环中的异步队列" class="headerlink" title="事件循环中的异步队列"></a>事件循环中的异步队列</h3><ul>
+<li>macro-task 比如： setTimeout、setInterval、 setImmediate、script（整体代码）、 I/O 操作、UI 渲染等。</li>
+<li>micro-task 比如: process.nextTick、Promise、MutationObserver 等。</li>
+<li><h3 id="Event-Loop过程解析"><a href="#Event-Loop过程解析" class="headerlink" title="Event Loop过程解析"></a>Event Loop过程解析</h3></li>
+</ul>
+<ol>
+<li>初始状态：调用栈空。micro 队列空，macro 队列里有且只有一个 script 脚本（整体代码）。</li>
+<li>全局上下文（script 标签）被推入调用栈，同步代码执行。在执行的过程中，通过对一些接口的调用，可以产生新的 macro-task 与 micro-task，它们会分别被推入各自的任务队列里。同步代码执行完了，script 脚本会被移出 macro 队列，这个过程本质上是队列的 macro-task 的执行和出队的过程。</li>
+<li>上一步我们出队的是一个 macro-task，这一步我们处理的是 micro-task。但需要注意的是：当 macro-task 出队时，任务是一个一个执行的；而 micro-task 出队时，任务是一队一队执行的（如下图所示）。因此，我们处理 micro 队列这一步，会逐个执行队列中的任务并把它出队，直到队列被清空。</li>
+<li>执行渲染操作，更新界面</li>
+<li>检查是否存在 Web worker 任务，如果有，则对其进行处理 。</li>
+<li>（上述过程循环往复，直到两个队列都清空）</li>
+</ol>
+<blockquote>
+<p>什么是执行栈？</p>
+</blockquote>
+<p>可以把执行栈认为是一个存储函数调用的栈结构，遵循先进后出的原则。</p>
+<blockquote>
+<p>Node 中的 Event Loop 和浏览器中的有什么区别？process.nexttick 执行顺序？</p>
+</blockquote>
+<p>Node 的 Event Loop 分为 6 个阶段，它们会按照顺序反复运行。每当进入某一个阶段的时候，都会从对应的回调队列中取出函数去执行。当队列为空或者执行的回调函数数量到达系统设定的阈值，就会进入下一阶段。</p>
+<p><strong>timer</strong></p>
+<p>timers 阶段会执行 setTimeout 和 setInterval 回调，并且是由 poll 阶段控制的。</p>
+<p>同样，在 Node 中定时器指定的时间也不是准确时间，只能是尽快执行。</p>
+<p><strong>I/O</strong></p>
+<p>I/O 阶段会处理一些上一轮循环中的少数未执行的 I/O 回调</p>
+<p>idle, prepare</p>
+<p>idle, prepare 阶段内部实现，这里就忽略不讲了。</p>
+<p><strong>poll</strong></p>
+<p>poll 是一个至关重要的阶段，这一阶段中，系统会做两件事情</p>
+<p>回到 timer 阶段执行回调<br>执行 I/O 回调<br>并且在进入该阶段时如果没有设定了 timer 的话，会发生以下两件事情</p>
+<p>如果 poll 队列不为空，会遍历回调队列并同步执行，直到队列为空或者达到系统限制<br>如果 poll 队列为空时，会有两件事发生</p>
+<p>如果有 setImmediate 回调需要执行，poll 阶段会停止并且进入到 check 阶段执行回调</p>
+<p>如果没有 setImmediate 回调需要执行，会等待回调被加入到队列中并立即执行回调，这里同样会有个超时时间设置防止一直等待下去</p>
+<p>当然设定了 timer 的话且 poll 队列为空，则会判断是否有 timer 超时，如果有的话会回到 timer 阶段执行回调。</p>
+<p><strong>check</strong></p>
+<p>check 阶段执行 setImmediate</p>
+<p>close callbacks</p>
+<p>close callbacks 阶段执行 close 事件</p>
+<p>读书笔记：</p>
+<p><a href="https://juejin.im/book/5bdc715fe51d454e755f75ef/section/5bdc715f6fb9a049c15ea4e0" target="_blank" rel="noopener">参考来源一：掘金</a></p>
+<p><a href="https://time.geekbang.org/column/article/79539" target="_blank" rel="noopener">参考来源二：极客</a></p>
+
+      
+    </div>
+
+  </div>
+
+  <div class="article-footer">
+    <div class="article-meta pull-left">
+
+    
+
+    
+    
+
+    <span class="post-tags">
+      <i class="icon-tags"></i>
+        <a href="/tags/重学前端/">重学前端</a><a href="/tags/异步/">异步</a><a href="/tags/JavaScript执行/">JavaScript执行</a>
+    </span>
+    
+
+    </div>
+
+    
+  </div>
+</article>
+
+
+    </main>
+
+    <footer class="site-footer">
+  <p class="site-info">
+    Proudly powered by <a href="https://hexo.io/" target="_blank">Hexo</a> and
+    Theme by <a href="https://github.com/CodeDaraW/Hacker" target="_blank">Hacker</a>
+    <br>
+    
+    &copy; 2019 zyy
+    
+  </p>
+</footer>
+    
+  </div>
+</div>
+</body>
+</html>
