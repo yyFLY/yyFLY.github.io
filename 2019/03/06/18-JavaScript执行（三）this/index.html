@@ -1,0 +1,186 @@
+<!DOCTYPE HTML>
+<html>
+<head><meta name="generator" content="Hexo 3.8.0">
+  <meta charset="utf-8">
+  
+  <title>18-JavaScript执行（三）this | ZYY&#39;BLOG | Good is good, but better carries it</title>
+
+  
+  <meta name="author" content="zyy">
+  
+
+  
+  <meta name="description" content="函数第一种，普通函数：用 function 关键字定义的函数。
+123function foo()&amp;#123;    // code&amp;#125;
+第二种，箭头函数：用 =&amp;gt; 运算符定义的函数。
+123const foo = () =&amp;gt; &amp;#123;    // code&amp;#125;
+第三">
+  
+
+  
+  
+  <meta name="keywords" content="重学前端,JavaScript执行,this">
+  
+
+  <meta id="viewport" name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, minimum-scale=1, user-scalable=no, minimal-ui">
+  <meta name="apple-mobile-web-app-capable" content="yes">
+  <meta name="apple-mobile-web-app-status-bar-style" content="black">
+
+  <meta property="og:title" content="18-JavaScript执行（三）this">
+
+  <meta property="og:site_name" content="ZYY&#39;BLOG">
+
+  
+  <meta property="og:image" content="/favicon.ico">
+  
+
+  <link href="//img/favicon.ico" rel="icon">
+  <link rel="alternate" href="/atom.xml" title="ZYY&#39;BLOG" type="application/atom+xml">
+  <link rel="stylesheet" href="/css/style.css" media="screen" type="text/css">
+</head>
+
+
+<body>
+<div class="blog">
+  <div class="content">
+
+    <header>
+  <div class="site-branding">
+    <h1 class="site-title">
+      <a href="/">ZYY&#39;BLOG</a>
+    </h1>
+    <p class="site-description">Good is good, but better carries it</p>
+  </div>
+  <nav class="site-navigation">
+    <ul>
+      
+        <li><a href="/">Home</a></li>
+      
+    </ul>
+  </nav>
+</header>
+
+    <main class="site-main posts-loop">
+    <article>
+
+  
+    
+    <h3 class="article-title"><span>18-JavaScript执行（三）this</span></h3>
+    
+  
+
+  <div class="article-top-meta">
+    <span class="posted-on">
+      <a href="/2019/03/06/18-JavaScript执行（三）this/" rel="bookmark">
+        <time class="entry-date published" datetime="2019-03-06T15:00:01.000Z">
+          2019-03-06
+        </time>
+      </a>
+    </span>
+  </div>
+
+
+  
+
+  <div class="article-content">
+    <div class="entry">
+      
+          <h2 id="函数"><a href="#函数" class="headerlink" title="函数"></a>函数</h2><p>第一种，普通函数：用 function 关键字定义的函数。</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">function foo()&#123;</span><br><span class="line">    // code</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>第二种，箭头函数：用 =&gt; 运算符定义的函数。</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">const foo = () =&gt; &#123;</span><br><span class="line">    // code</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>第三种，方法：在 class 中定义的函数。</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">class C &#123;</span><br><span class="line">    foo()&#123;</span><br><span class="line">        //code</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>第四种，生成器函数：用 function * 定义的函数。</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">function foo*()&#123;</span><br><span class="line">    // code</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>第五种，类：用 class 定义的类，实际上也是函数。<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">class Foo &#123;</span><br><span class="line">    constructor()&#123;</span><br><span class="line">        //code</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></p>
+<p>第六 / 七 / 八种，异步函数：普通函数、箭头函数和生成器函数加上 async 关键字。</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line">async function foo()&#123;</span><br><span class="line">    // code</span><br><span class="line">&#125;</span><br><span class="line">const foo = async () =&gt; &#123;</span><br><span class="line">    // code</span><br><span class="line">&#125;</span><br><span class="line">async function foo*()&#123;</span><br><span class="line">    // code</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<h3 id="this-关键字的行为"><a href="#this-关键字的行为" class="headerlink" title="this 关键字的行为"></a>this 关键字的行为</h3><p>this 是 JavaScript 中的一个关键字，它的使用方法类似于一个变量（但是 this 跟变量的行为有很多不同，上一节课我们讲了一些普通变量的行为和机制，也就是 var 声明和赋值、let 的内容）。</p>
+<p>this 是执行上下文中很重要的一个组成部分。同一个函数调用方式不同，得到的 this 值也不同</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line">function showThis()&#123;</span><br><span class="line">    console.log(this);</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">var o = &#123;</span><br><span class="line">    showThis: showThis</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">showThis(); // global</span><br><span class="line">o.showThis(); // o</span><br></pre></td></tr></table></figure>
+<p>普通函数的 this 值由“调用它所使用的引用”决定，其中奥秘就在于：我们获取函数的表达式，它实际上返回的并非函数本身，而是一个 Reference 类型（记得我们在类型一章讲过七种标准类型吗，正是其中之一）。</p>
+<p>Reference 类型由两部分组成：一个对象和一个属性值。不难理解 o.showThis 产生的 Reference 类型，即由对象 o 和属性“showThis”构成。</p>
+<p>在这个例子中，Reference 类型中的对象被当作 this 值，传入了执行函数时的上下文当中。</p>
+<p>调用函数时使用的引用，决定了函数执行时刻的 this 值。</p>
+<p>如果，我们把这个例子稍作修改，换成箭头函数，结果就不一样了：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line">const showThis = () =&gt; &#123;</span><br><span class="line">    console.log(this);</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">var o = &#123;</span><br><span class="line">    showThis: showThis</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">showThis(); // global</span><br><span class="line">o.showThis(); // global</span><br></pre></td></tr></table></figure>
+<p>我们看到，改为箭头函数后，不论用什么引用来调用它，都不影响它的 this 值。</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line">class C &#123;</span><br><span class="line">    showThis() &#123;</span><br><span class="line">        console.log(this);</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br><span class="line">var o = new C();</span><br><span class="line">var showThis = o.showThis;</span><br><span class="line"></span><br><span class="line">showThis(); // undefined</span><br><span class="line">o.showThis(); // global</span><br></pre></td></tr></table></figure>
+<p>按照我们上面的方法，不难验证出：生成器函数、异步生成器函数和异步普通函数跟普通函数行为是一致的，异步箭头函数与箭头函数行为是一致的。</p>
+<h3 id="this-关键字的机制"><a href="#this-关键字的机制" class="headerlink" title="this 关键字的机制"></a>this 关键字的机制</h3><p>函数能够引用定义时的变量，如上文分析，函数也能记住定义时的 this，因此，函数内部必定有一个机制来保存这些信息。</p>
+<p>在 JavaScript 标准中，为函数规定了用来保存定义时上下文的私有属性 [[Environment]]。</p>
+<p>当一个函数执行时，会创建一条新的执行环境记录，记录的外层词法环境（outer lexical environment）会被设置成函数的 [[Environment]]。</p>
+<p>这个动作就是切换上下文了，我们假设有这样的代码：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line">var a = 1;</span><br><span class="line">foo();</span><br><span class="line"></span><br><span class="line">在别处定义了 foo：</span><br><span class="line"></span><br><span class="line">var b = 2;</span><br><span class="line">function foo()&#123;</span><br><span class="line">    console.log(b); // 2</span><br><span class="line">    console.log(a); // error</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>这里的 foo 能够访问 b（定义时词法环境），却不能访问 a（执行时的词法环境），这就是执行上下文的切换机制了。</p>
+<p>JavaScript 用一个栈来管理执行上下文，这个栈中的每一项又包含一个链表。如下图所示：</p>
+<p><img src="https://static001.geekbang.org/resource/image/e8/31/e8d8e96c983a832eb646d6c17ff3df31.jpg" alt="image"></p>
+<p>当函数调用时，会入栈一个新的执行上下文，函数调用结束时，执行上下文被出栈。</p>
+<p>而 this 则是一个更为复杂的机制，JavaScript 标准定义了 [[thisMode]] 私有属性。</p>
+<p>[[thisMode]] 私有属性有三个取值。</p>
+<ul>
+<li>lexical：表示从上下文中找 this，这对应了箭头函数。</li>
+<li>global：表示当 this 为 undefined 时，取全局对象，对应了普通函数。</li>
+<li>strict：当严格模式时使用，this 严格按照调用时传入的值，可能为 null 或者 undefined。</li>
+</ul>
+<p>非常有意思的是，方法的行为跟普通函数有差异，恰恰是因为 class 设计成了默认按 strict 模式执行。</p>
+<p>我们可以用 strict 达成与上一节中方法的例子一样的效果:</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line">&quot;use strict&quot;</span><br><span class="line">function showThis()&#123;</span><br><span class="line">    console.log(this);</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">var o = &#123;</span><br><span class="line">    showThis: showThis</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">showThis(); // undefined</span><br><span class="line">o.showThis(); // o</span><br></pre></td></tr></table></figure>
+<p>函数创建新的执行上下文中的词法环境记录时，会根据 [[thisMode]] 来标记新纪录的 [[ThisBindingStatus]] 私有属性。</p>
+<p>代码执行遇到 this 时，会逐层检查当前词法环境记录中的 [[ThisBindingStatus]]，当找到有 this 的环境记录时获取 this 的值。</p>
+<p>这样的规则的实际效果是，嵌套的箭头函数中的代码都指向外层 this，例如：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line">var o = &#123;&#125;</span><br><span class="line">o.foo = function foo()&#123;</span><br><span class="line">    console.log(this);</span><br><span class="line">    return () =&gt; &#123;</span><br><span class="line">        console.log(this);</span><br><span class="line">        return () =&gt; console.log(this);</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">o.foo()()(); // o, o, o</span><br></pre></td></tr></table></figure>
+<h3 id="操作-this-的内置函数"><a href="#操作-this-的内置函数" class="headerlink" title="操作 this 的内置函数"></a>操作 this 的内置函数</h3><p>Function.prototype.call 和 Function.prototype.apply 可以指定函数调用时传入的 this 值，示例如下：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">function foo(a, b, c)&#123;</span><br><span class="line">    console.log(this);</span><br><span class="line">    console.log(a, b, c);</span><br><span class="line">&#125;</span><br><span class="line">foo.call(&#123;&#125;, 1, 2, 3);</span><br><span class="line">foo.apply(&#123;&#125;, [1, 2, 3]);</span><br></pre></td></tr></table></figure>
+<p>这里 call 和 apply 作用是一样的，只是传参方式有区别。</p>
+<p>此外，还有 Function.prototype.bind 它可以生成一个绑定过的函数，这个函数的 this 值固定了参数：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">function foo(a, b, c)&#123;</span><br><span class="line">    console.log(this);</span><br><span class="line">    console.log(a, b, c);</span><br><span class="line">&#125;</span><br><span class="line">foo.bind(&#123;&#125;, 1, 2, 3)();</span><br></pre></td></tr></table></figure>
+<h2 id="补充阅读：new-与-this"><a href="#补充阅读：new-与-this" class="headerlink" title="补充阅读：new 与 this"></a>补充阅读：new 与 this</h2><p>以构造器的 prototype 属性（注意与私有字段 [[prototype]] 的区分）为原型，创建新对象；<br>将 this 和调用参数传给构造器，执行；<br>如果构造器返回的是对象，则返回，否则返回第一步创建的对象。</p>
+<p><img src="https://static001.geekbang.org/resource/image/6a/da/6a9f0525b713a903c6c94f52afaea3da.png" alt="image"></p>
+<p>读书笔记：</p>
+<p><a href="https://time.geekbang.org/column/article/83719" target="_blank" rel="noopener">参考来源一：极客</a></p>
+
+      
+    </div>
+
+  </div>
+
+  <div class="article-footer">
+    <div class="article-meta pull-left">
+
+    
+
+    
+    
+
+    <span class="post-tags">
+      <i class="icon-tags"></i>
+        <a href="/tags/重学前端/">重学前端</a><a href="/tags/JavaScript执行/">JavaScript执行</a><a href="/tags/this/">this</a>
+    </span>
+    
+
+    </div>
+
+    
+  </div>
+</article>
+
+
+    </main>
+
+    <footer class="site-footer">
+  <p class="site-info">
+    Proudly powered by <a href="https://hexo.io/" target="_blank">Hexo</a> and
+    Theme by <a href="https://github.com/CodeDaraW/Hacker" target="_blank">Hacker</a>
+    <br>
+    
+    &copy; 2019 zyy
+    
+  </p>
+</footer>
+    
+  </div>
+</div>
+</body>
+</html>
